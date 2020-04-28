@@ -4,6 +4,13 @@ call plug#begin('~/.nvim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
+" Language and ftp
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Snippet
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 " Utility
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -12,16 +19,6 @@ Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
-" Language and ftp
-Plug 'neovim/nvim-lsp'
-Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'for': ['go', 'javascript', 'typescript', 'rust'] }
-Plug 'Shougo/deoplete-lsp', {'for': ['go', 'javascript', 'typescript', 'rust']}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': 'dart'}
-" Snippet
-Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
 call plug#end()
 filetype on
 
@@ -133,6 +130,7 @@ nmap <silent> <leader>gw :Gwrite<CR>
 nmap <leader>gn :Git checkout -b 
 nmap <leader>gp :execute ":Git push origin " . fugitive#head(0)<CR>
 nmap <leader>gb :Gbranch<cr>
+nmap <leader>gg :execute ":Git pull origin " . fugitive#head(0)<CR>
 
 " Quick indent
 vnoremap > >gv
@@ -224,27 +222,19 @@ endfunction
 
 " LSP Configuration
 let g:deoplete#enable_at_startup = 1
+" Use vim-go instead of vim-polyglot/go
+let g:polyglot_disabled = ['go']
 " Rust
 let g:rustfmt_autosave = 1
 " Go
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 " NVIM LSP
-lua require'nvim_lsp'.rls.setup{}
-lua require'nvim_lsp'.dockerls.setup{}
-lua require'nvim_lsp'.tsserver.setup{}
-lua require'nvim_lsp'.gopls.setup{}
-lua require'nvim_lsp'.bashls.setup{}
-" Use vim-go instead of vim-polyglot/go
-let g:polyglot_disabled = ['go']
-" LSP key bindings
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Refactor tools
 function! QuickFixOpenAll()
