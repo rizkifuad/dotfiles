@@ -50,7 +50,7 @@ set shiftwidth=4 " number of spaces to use for indent and unindent
 set shiftround " round indent to a multiple of 'shiftwidth'
 set laststatus=2 " Always display the statusline in all windows
 set showtabline=2 " Always display the tabline, even if there is only one tab
-set clipboard+=unnamedplus " Set clipboard to global
+set clipboard+=unnamedplus
 set list " set list characters
 set listchars=tab:▸\ ,eol:¬ " Display tab and eol char
 set hidden " Set hidden
@@ -229,7 +229,6 @@ let g:rustfmt_autosave = 1
 " Go
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
-" NVIM LSP
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
