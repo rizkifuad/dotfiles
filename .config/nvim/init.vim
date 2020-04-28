@@ -26,8 +26,6 @@ call plug#end()
 filetype on
 
 let mapleader = "," " Set comma as leader key
-" Quick close
-nmap <leader>w :w<cr>
 " Open folder tree
 nmap <silent><leader>a :NERDTreeToggle<cr>
 nmap <silent><leader>k :NERDTreeCWD<cr>
@@ -36,8 +34,12 @@ map <silent> <leader>ev :e ~/.config/nvim/init.vim<CR>
 " lazy binding
 nmap ; :
 vmap ; :
+" Quick buffer back
 nmap <leader>b :b#<cr>
+" Quick close
 nmap <leader>q :q<cr>
+" Quick write
+nmap <leader>w :w<cr>
 " toggle search highliting
 nmap <silent><leader><space> :set invhlsearch<cr>
 
