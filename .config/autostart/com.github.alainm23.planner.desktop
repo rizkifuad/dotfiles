@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Planner
+GenericName=Planner
+Comment=Never worry about forgetting things again
+Categories=Development;Utility;Office;Education;ProjectManagement;Network;Calendar;
+Exec=com.github.alainm23.planner --s
+Icon=com.github.alainm23.planner
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=planner
+Keywords=development;task;tasks;project;todo;event;events;calendar;todoist;
+X-GNOME-UsesNotifications=true
+X-GNOME-Autostart-enabled=true
