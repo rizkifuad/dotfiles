@@ -37,7 +37,8 @@ set laststatus=2 " Always display the statusline in all windows
 set showtabline=2 " Always display the tabline, even if there is only one tab
 set clipboard+=unnamedplus
 set list " set list characters
-set listchars=tab:▸\ ,eol:¬ " Display tab and eol char
+" set listchars=tab:▸\ ,eol:¬ " Display tab and eol char
+set listchars=eol:↲,tab:↦\ ,nbsp:␣,extends:…,trail:⋅
 set hidden " Set hidden
 set nobackup " No backup
 set noswapfile " No swap file
@@ -63,10 +64,11 @@ let g:lightline = {
       \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'readonly', 'filename', 'cocstatus' ,'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
+      \   'gitbranch': 'fugitive#head',
+      \   'cocstatus': 'coc#status',
       \ },
       \ }
 
@@ -117,16 +119,20 @@ nmap <S-J> 5j
 nmap <S-K> 5k
 vnoremap <S-J> 5j
 vnoremap <S-K> 5k
+" AsyncRun
 nmap <leader>y :copen<cr>:AsyncRun 
 
+" FZF
+so $HOME/.config/nvim/fzf.vim
+
 " Git utility
-function! s:changebranch(branch) 
+function! s:changebranch(branch)
     execute 'Git checkout' . a:branch
 endfunction
-command! -bang Gbranch call fzf#run({
+command! -bang Gbranch call fzf#run(fzf#wrap({
             \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
             \ 'sink': function('s:changebranch')
-            \ })
+            \ }))
 nmap <silent> <leader>gs :Gstatus<CR><C-w>100+
 nmap <silent> <leader>gc :Gcommit<CR><C-w>6+
 nmap <silent> <leader>gw :Gwrite<CR>
@@ -165,8 +171,7 @@ endfunction
 map <leader><cr> :call RunFile()<cr>
 
 " FZF 
-let $FZF_DEFAULT_COMMAND= 'rg --files --hidden --smart-case'
-let $FZF_DEFAULT_OPTS='--color fg:188,bg:0,hl:103,fg+:222,bg+:0,hl+:104 --color info:183,prompt:110,spinner:107,pointer:167,marker:215'
+" let $FZF_DEFAULT_OPTS='--color fg:188,bg:0,hl:103,fg+:222,bg+:0,hl+:104 --color info:183,prompt:110,spinner:107,pointer:167,marker:215'
 nmap <C-P> :FZF<CR>
 nnoremap <silent> \ :Buffers<CR>
 
@@ -240,6 +245,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> <space>  :<C-u>CocList outline<cr>
 
 " Load all files in quick fix window into buffer
 function! QuickFixOpenAll()
