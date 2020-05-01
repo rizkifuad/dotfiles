@@ -4,7 +4,10 @@ if ! zgen saved; then
     echo "Creating a zgen save"
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/autojump
     zgen load zsh-users/zsh-completions src
+    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load zsh-users/zsh-autosuggestions
     zgen save
 fi
 # Source private config
@@ -36,6 +39,7 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 bindkey -v # Vim keybinding
+bindkey -M vicmd v edit-command-line
 autoload zkbd
 typeset -g -A key
 
@@ -46,6 +50,8 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+bindkey "^P" up-line-or-beginning-search # Up
+bindkey "^N" down-line-or-beginning-search # Down
 
 SSH_ENV=$HOME/.ssh/environment
 
@@ -66,13 +72,12 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-export LC_CTYPE=C 
-export LANG=C
-
 # Lang config
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_MESSAGES="C"
+export LC_CTYPE=C 
+export LANG=C
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml

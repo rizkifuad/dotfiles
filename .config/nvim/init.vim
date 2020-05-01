@@ -19,26 +19,11 @@ Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 filetype on
 
 let mapleader = "," " Set comma as leader key
-" Open folder tree
-nmap <silent><leader>a :NERDTreeToggle<cr>
-nmap <silent><leader>k :NERDTreeCWD<cr>
-" Quick open config file
-map <silent> <leader>ev :e ~/.config/nvim/init.vim<CR>
-" lazy binding
-nmap ; :
-vmap ; :
-" Quick buffer back
-nmap <leader>b :b#<cr>
-" Quick close
-nmap <leader>q :q<cr>
-" Quick write
-nmap <leader>w :w<cr>
-" toggle search highliting
-nmap <silent><leader><space> :set invhlsearch<cr>
 
 set nohlsearch " No search highliting at the start
 set mouse=a " Set mouse to active
@@ -61,7 +46,7 @@ set nowrap " Set no word wrapping
 set diffopt+=vertical " Set vertical diff window
 set completeopt-=preview
 set ignorecase " Ignore case sensitivity
-set smartcase 
+set smartcase
 set t_ut=
 set foldmethod=manual
 set foldlevelstart=2
@@ -69,6 +54,8 @@ set norelativenumber
 set ttyfast
 set lazyredraw
 set encoding=UTF-8
+set complete-=i   " disable scanning included files
+set complete-=t   " disable searching tags
 set background=dark " Set dark background
 colorscheme nord
 " Setup statusbar
@@ -83,15 +70,31 @@ let g:lightline = {
       \ },
       \ }
 
-" Source local configuration if exist
-if filereadable('.local.vim')
-    so .local.vim
-endif
-
+" Open folder tree
+nmap <silent><leader>a :NERDTreeToggle<cr>
+nmap <silent><leader>k :NERDTreeCWD<cr>
+" Quick open config file
+map <silent> <leader>ev :e ~/.config/nvim/init.vim<CR>
+" lazy binding
+nmap ; :
+vmap ; :
+" Quick buffer back
+nmap <leader>b :b#<cr>
+" Quick close
+nmap <leader>q :q<cr>
+" Quick write
+nmap <leader>w :w<cr>
+" toggle search highliting
+nmap <silent><leader><space> :set invhlsearch<cr>
+" Quickly move current line
+nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+" Quickly add empty lines
+nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-
 "Fast spliting
 map <silent> <C-h> :call WinMove('h')<cr>
 map <silent> <C-j> :call WinMove('j')<cr>
@@ -109,12 +112,12 @@ function! WinMove(key)
         exec "wincmd ".a:key
     endif
 endfunction
-
 " quick jump
 nmap <S-J> 5j
 nmap <S-K> 5k
 vnoremap <S-J> 5j
 vnoremap <S-K> 5k
+nmap <leader>y :copen<cr>:AsyncRun 
 
 " Git utility
 function! s:changebranch(branch) 
@@ -133,8 +136,13 @@ nmap <leader>gb :Gbranch<cr>
 nmap <leader>gg :execute ":Git pull origin " . fugitive#head(0)<CR>
 
 " Quick indent
-vnoremap > >gv
-vnoremap < <LT>gv
+xnoremap > >gv
+xnoremap < <gv
+
+" Toggle tab width
+nmap <leader>2 :set tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nmap <leader>4 :set tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap <leader>8 :set tabstop=8 shiftwidth=8 softtabstop=8<CR>
 
 " VIMUXX
 function! RunFile()
@@ -174,9 +182,9 @@ else
 endif
 
 " I don't know
-hi VertSplit ctermbg=none ctermfg=243 guibg=none
-hi Search ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
-hi IncSearch ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
+" hi VertSplit ctermbg=none ctermfg=243 guibg=none
+" hi Search ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
+" hi IncSearch ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
 
 " Ultisnips setup
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -220,8 +228,6 @@ function! InvertKV()
   :silent! %s/^- name: "\(.*\)"\n/\1=/g
 endfunction
 
-" LSP Configuration
-let g:deoplete#enable_at_startup = 1
 " Use vim-go instead of vim-polyglot/go
 let g:polyglot_disabled = ['go']
 " Rust
@@ -229,13 +235,13 @@ let g:rustfmt_autosave = 1
 " Go
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
-" GoTo code navigation.
+" Coc code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Refactor tools
+" Load all files in quick fix window into buffer
 function! QuickFixOpenAll()
     if empty(getqflist())
         return
@@ -255,3 +261,10 @@ nnoremap <leader>oa :QuickFixOpenAll<cr>
 " Quickscope config
 let g:qs_enable=1
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+" Source local configuration if exist
+if filereadable('.local.vim')
+    so .local.vim
+endif
