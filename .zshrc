@@ -17,6 +17,11 @@ source $HOME/.config/zsh/prompt.zsh
 
 # Dotfiles bare repo
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias d="dotfiles"
+alias da="dotfiles add"
+alias dcommit="dotfiles commit -m"
+alias dpush="dotfiles push origin master"
+alias dpull="dotfiles pull origin master"
 # Quick systemctl
 alias ss="sudo systemctl start"
 alias sr="sudo systemctl restart"
