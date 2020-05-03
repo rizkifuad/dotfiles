@@ -20,6 +20,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'antoinemadec/coc-fzf'
 call plug#end()
 filetype on
 
@@ -124,6 +125,8 @@ nmap <leader>y :copen<cr>:AsyncRun
 
 " FZF
 so $HOME/.config/nvim/fzf.vim
+" Coc
+so $HOME/.config/nvim/coc.vim
 
 " Git utility
 function! s:changebranch(branch)
@@ -131,8 +134,19 @@ function! s:changebranch(branch)
 endfunction
 command! -bang Gbranch call fzf#run(fzf#wrap({
             \ 'source': 'git branch -a --no-color | grep -v "^\* " ', 
-            \ 'sink': function('s:changebranch')
+            \ 'sink': function('s:changebranch'),
+            \ 'options': '--prompt="Switch Branch: "'
             \ }))
+" Terminal bookmark
+function! s:opentermbookmark(cmd)
+    execute 'AsyncRun /home/rizki/work/personal/tbmk/target/debug/tbmk' .' "'. a:cmd .'"'
+endfunction
+command! -bang TermBookmark call fzf#run(fzf#wrap({
+            \ 'source': '/home/rizki/work/personal/tbmk/target/debug/tbmk', 
+            \ 'sink': function('s:opentermbookmark'),
+            \ 'options': '--ansi --prompt="Terminal Bookmark: "'
+            \ }))
+nmap <space><space> :TermBookmark<cr>
 nmap <silent> <leader>gs :Gstatus<CR><C-w>100+
 nmap <silent> <leader>gc :Gcommit<CR><C-w>6+
 nmap <silent> <leader>gw :Gwrite<CR>
@@ -155,6 +169,8 @@ function! RunFile()
     let fname = @%
     if (&filetype == 'rust')
         let command =  " clear && cargo run"
+    elseif (&filetype == 'sh')
+        let command =  " clear && ./".fname
     elseif (&filetype == 'scala')
         let command =  "scala "
     elseif (&filetype == 'javascript')
@@ -169,11 +185,6 @@ function! RunFile()
     call VimuxRunCommand(command)
 endfunction
 map <leader><cr> :call RunFile()<cr>
-
-" FZF 
-" let $FZF_DEFAULT_OPTS='--color fg:188,bg:0,hl:103,fg+:222,bg+:0,hl+:104 --color info:183,prompt:110,spinner:107,pointer:167,marker:215'
-nmap <C-P> :FZF<CR>
-nnoremap <silent> \ :Buffers<CR>
 
 " Fix terminal in tmux
 let &t_8f = "[38;2;%lu;%lu;%lum"
@@ -196,8 +207,8 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
+" let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
+" let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
 
 " NERD Commenter setup
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
@@ -206,9 +217,6 @@ let g:NERDDefaultAlign = 'left' " Align line-wise comment delimiters flush left 
 let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } } " Add your own custom formats or override the defaults
 let g:NERDCommentEmptyLines = 1 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
-
-" Autoload configuration when save
-autocmd! BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
 " Fix strange quotes
 function! FixQuotes()
@@ -240,12 +248,6 @@ let g:rustfmt_autosave = 1
 " Go
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
-" Coc code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> <space>  :<C-u>CocList outline<cr>
 
 " Load all files in quick fix window into buffer
 function! QuickFixOpenAll()
@@ -274,3 +276,8 @@ highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=und
 if filereadable('.local.vim')
     so .local.vim
 endif
+
+autocmd BufRead,BufNewFile,BufEnter *.dart UltiSnipsAddFiletypes dart-flutter
+
+" Autoload configuration when save
+autocmd! BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim

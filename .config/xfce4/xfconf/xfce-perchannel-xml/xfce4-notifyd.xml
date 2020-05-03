@@ -15,6 +15,7 @@
       <value type="string" value="Skype"/>
       <value type="string" value="Slack"/>
       <value type="string" value="Studio"/>
+      <value type="string" value="Terminal Bookmark"/>
       <value type="string" value="thunar"/>
       <value type="string" value="TimerExtension"/>
       <value type="string" value="Transmission"/>

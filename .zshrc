@@ -96,3 +96,16 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$GOBIN
+
+b() {
+    app=/home/rizki/work/personal/tbmk/target/debug/tbmk
+    ${app} \
+        | sed -E $'s/(.* > )(.*)\t(.*)/\x1b[35m\\1\x1b[m\\2\t\x1b[36m\\3\x1b[m/g' \
+        | fzf --ansi \
+        | cut -d$'\t' -f2 \
+        | xargs -I{} ${app} {}
+    }
+
+braw() {
+    /home/rizki/work/personal/tbmk/target/debug/tbmk
+}
