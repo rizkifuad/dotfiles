@@ -12,8 +12,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 " Utility
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-commentary'
+Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeCWD'] }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'unblevable/quick-scope'
 Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
@@ -21,6 +22,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'antoinemadec/coc-fzf'
+Plug 'morhetz/gruvbox'
 call plug#end()
 filetype on
 
@@ -77,7 +79,7 @@ let g:lightline = {
 nmap <silent><leader>a :NERDTreeToggle<cr>
 nmap <silent><leader>k :NERDTreeCWD<cr>
 " Quick open config file
-map <silent> <leader>ev :e ~/.config/nvim/init.vim<CR>
+map <silent> <leader>ev :tabnew<cr>:lcd ~/.config/nvim<cr>:e init.vim<CR>
 " lazy binding
 nmap ; :
 vmap ; :
@@ -98,6 +100,10 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+" make Y consistent with C and D.
+nnoremap Y y$
+" enable . command in visual mode
+vnoremap . :normal .<cr>
 "Fast spliting
 map <silent> <C-h> :call WinMove('h')<cr>
 map <silent> <C-j> :call WinMove('j')<cr>
@@ -138,26 +144,38 @@ command! -bang Gbranch call fzf#run(fzf#wrap({
             \ 'options': '--prompt="Switch Branch: "'
             \ }))
 " Terminal bookmark
-function! s:opentermbookmark(cmd)
-    execute 'AsyncRun /home/rizki/work/personal/tbmk/target/debug/tbmk' .' "'. a:cmd .'"'
+function! s:opentermbookmark(lines)
+    " if len(a:lines) < 2 | return | endif
+
+    " let cmd = get({'ctrl-x': 'split',
+    "             \ 'ctrl-v': 'vertical split',
+    "             \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+    " execute cmd "coc.vim"
+    execute 'AsyncRun /home/rizki/work/personal/tbmk/target/debug/tbmk' .' "'. a:lines .'"'
 endfunction
 command! -bang TermBookmark call fzf#run(fzf#wrap({
             \ 'source': '/home/rizki/work/personal/tbmk/target/debug/tbmk', 
             \ 'sink': function('s:opentermbookmark'),
             \ 'options': '--ansi --prompt="Terminal Bookmark: "'
             \ }))
-nmap <space><space> :TermBookmark<cr>
-nmap <silent> <leader>gs :Gstatus<CR><C-w>100+
+
+nmap <space>a :TermBookmark<cr>
+nmap <silent> <leader>gs :Gstatus<CR><C-w>6+
 nmap <silent> <leader>gc :Gcommit<CR><C-w>6+
 nmap <silent> <leader>gw :Gwrite<CR>
 nmap <leader>gn :Git checkout -b 
-nmap <leader>gp :execute ":Git push origin " . fugitive#head(0)<CR>
+nmap <leader>gl :copen<cr>:execute "AsyncRun git-push-open-pr " . fugitive#head(0)<CR>
+nmap <leader>gp :copen<cr>:execute "AsyncRun git push origin " . fugitive#head(0)<CR>
 nmap <leader>gb :Gbranch<cr>
 nmap <leader>gg :execute ":Git pull origin " . fugitive#head(0)<CR>
 
 " Quick indent
 xnoremap > >gv
 xnoremap < <gv
+
+" Vim Commentary
+nmap <leader>c gcc
+xmap <leader>c gcc<esc>
 
 " Toggle tab width
 nmap <leader>2 :set tabstop=2 shiftwidth=2 softtabstop=2<CR>
@@ -171,6 +189,8 @@ function! RunFile()
         let command =  " clear && cargo run"
     elseif (&filetype == 'sh')
         let command =  " clear && ./".fname
+    elseif (&filetype == 'python')
+        let command =  " clear && python ".fname
     elseif (&filetype == 'scala')
         let command =  "scala "
     elseif (&filetype == 'javascript')
@@ -192,7 +212,9 @@ let &t_8b = "[48;2;%lu;%lu;%lum"
 
 " Set to true colors
 if has('termguicolors')
-  set termguicolors " True colors
+    set termguicolors " True colors
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 else
   set t_Co=256
 endif
@@ -209,14 +231,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 " let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
 " let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
-
-" NERD Commenter setup
-let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
-let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
-let g:NERDDefaultAlign = 'left' " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } } " Add your own custom formats or override the defaults
-let g:NERDCommentEmptyLines = 1 " Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
 
 " Fix strange quotes
 function! FixQuotes()
@@ -278,6 +292,25 @@ if filereadable('.local.vim')
 endif
 
 autocmd BufRead,BufNewFile,BufEnter *.dart UltiSnipsAddFiletypes dart-flutter
+
+" Italic comment
+highlight Comment cterm=italic gui=italic
+
+" NERDTree config
+let NERDTreeShowHidden=1
+let g:NERDTreeIndicatorMapCustom = {
+            \ "Modified"  : "✹",
+            \ "Staged"    : "✚",
+            \ "Untracked" : "✭",
+            \ "Renamed"   : "➜",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖",
+            \ "Dirty"     : "✗",
+            \ "Clean"     : "✔︎",
+            \ 'Ignored'   : '☒',
+            \ "Unknown"   : "?"
+            \ }
+
 
 " Autoload configuration when save
 autocmd! BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim

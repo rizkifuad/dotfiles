@@ -30,7 +30,7 @@ alias sx="sudo systemctl stop"
 # Tmux quick attach
 alias tma="tmux attach -t $1"
 # vim to neovim
-alias vim=nvim
+# alias vim=nvim
 alias kubectl="sudo kubectl"
 alias open="xdg-open"
 alias plantuml="plantuml -config $HOME/.config/plantuml"
@@ -61,6 +61,7 @@ bindkey "^N" down-line-or-beginning-search # Down
 SSH_ENV=$HOME/.ssh/environment
 
 # FZF config
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # export FZF_DEFAULT_OPTS="
 # --color fg:188,bg:0,hl:103,fg+:222,bg+:0,hl+:104
@@ -96,16 +97,3 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$GOBIN
-
-b() {
-    app=/home/rizki/work/personal/tbmk/target/debug/tbmk
-    ${app} \
-        | sed -E $'s/(.* > )(.*)\t(.*)/\x1b[35m\\1\x1b[m\\2\t\x1b[36m\\3\x1b[m/g' \
-        | fzf --ansi \
-        | cut -d$'\t' -f2 \
-        | xargs -I{} ${app} {}
-    }
-
-braw() {
-    /home/rizki/work/personal/tbmk/target/debug/tbmk
-}

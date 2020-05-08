@@ -13,5 +13,6 @@
                 "lintTool": "golint"
             }
         }
-    }
+    },
+    "svelte.plugin.typescript.diagnostics.enable": false
 }
