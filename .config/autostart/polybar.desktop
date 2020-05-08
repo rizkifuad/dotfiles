@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Polybar
+Comment=Polybar
+Exec=/home/rizki/.config/polybar/launch.sh
+Icon=polybar
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=true
+Hidden=false
+X-GNOME-Autostart-enabled=false
+
