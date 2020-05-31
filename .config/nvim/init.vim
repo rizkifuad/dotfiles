@@ -8,21 +8,22 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf'
 " Snippet
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 " Utility
 Plug 'tpope/vim-commentary'
-Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeCWD'] }
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'preservim/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeCWD'] }
 Plug 'unblevable/quick-scope'
 Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'antoinemadec/coc-fzf'
-Plug 'morhetz/gruvbox'
+Plug 'ryanoasis/vim-devicons'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
 call plug#end()
 filetype on
 
@@ -52,16 +53,17 @@ set completeopt-=preview
 set ignorecase " Ignore case sensitivity
 set smartcase
 set t_ut=
-set foldmethod=manual
-set foldlevelstart=2
-set norelativenumber
+set rnu
+set nu
 set ttyfast
-set lazyredraw
+" set lazyredraw
 set encoding=UTF-8
 set complete-=i   " disable scanning included files
 set complete-=t   " disable searching tags
 set background=dark " Set dark background
 colorscheme nord
+set fillchars+=vert:\|
+highlight CursorLineNr cterm=bold,italic gui=bold,italic
 " Setup statusbar
 let g:lightline = {
       \ 'colorscheme': 'nord',
@@ -80,11 +82,13 @@ nmap <silent><leader>a :NERDTreeToggle<cr>
 nmap <silent><leader>k :NERDTreeCWD<cr>
 " Quick open config file
 map <silent> <leader>ev :tabnew<cr>:lcd ~/.config/nvim<cr>:e init.vim<CR>
-" lazy binding
+" Lazy binding
 nmap ; :
 vmap ; :
 " Quick buffer back
 nmap <leader>b :b#<cr>
+" Quick open tab
+nmap <leader>t :tabnew<cr>
 " Quick close
 nmap <leader>q :q<cr>
 " Quick write
@@ -100,6 +104,9 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+" Easy wrap nav
+nnoremap j gj
+nnoremap k gk
 " make Y consistent with C and D.
 nnoremap Y y$
 " enable . command in visual mode
@@ -121,11 +128,9 @@ function! WinMove(key)
         exec "wincmd ".a:key
     endif
 endfunction
-" quick jump
-nmap <S-J> 5j
-nmap <S-K> 5k
-vnoremap <S-J> 5j
-vnoremap <S-K> 5k
+" quick move
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 " AsyncRun
 nmap <leader>y :copen<cr>:AsyncRun 
 
@@ -159,9 +164,10 @@ command! -bang TermBookmark call fzf#run(fzf#wrap({
             \ 'options': '--ansi --prompt="Terminal Bookmark: "'
             \ }))
 
-nmap <space>a :TermBookmark<cr>
-nmap <silent> <leader>gs :Gstatus<CR><C-w>6+
-nmap <silent> <leader>gc :Gcommit<CR><C-w>6+
+" nmap <space>a :TermBookmark<cr>
+nmap <silent> <leader>gs :Gstatus<CR><C-w>8+
+nmap <silent> <leader>ga :Git add --all<cr>
+nmap <silent> <leader>gc :Gcommit<CR><C-w>8+
 nmap <silent> <leader>gw :Gwrite<CR>
 nmap <leader>gn :Git checkout -b 
 nmap <leader>gl :copen<cr>:execute "AsyncRun git-push-open-pr " . fugitive#head(0)<CR>
@@ -218,11 +224,6 @@ if has('termguicolors')
 else
   set t_Co=256
 endif
-
-" I don't know
-" hi VertSplit ctermbg=none ctermfg=243 guibg=none
-" hi Search ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
-" hi IncSearch ctermbg=NONE ctermfg=NONE guifg=NONE guibg=NONE gui=reverse cterm=reverse
 
 " Ultisnips setup
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -298,19 +299,24 @@ highlight Comment cterm=italic gui=italic
 
 " NERDTree config
 let NERDTreeShowHidden=1
-let g:NERDTreeIndicatorMapCustom = {
-            \ "Modified"  : "✹",
-            \ "Staged"    : "✚",
-            \ "Untracked" : "✭",
-            \ "Renamed"   : "➜",
-            \ "Unmerged"  : "═",
-            \ "Deleted"   : "✖",
-            \ "Dirty"     : "✗",
-            \ "Clean"     : "✔︎",
-            \ 'Ignored'   : '☒',
-            \ "Unknown"   : "?"
-            \ }
-
+highlight! link NERDTreeFlags NERDTreeDirSlash
 
 " Autoload configuration when save
 autocmd! BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("Substitute", 200)
+augroup END
+augroup neovim_terminal
+    tnoremap <Esc> <C-\><C-n>
+    autocmd!
+
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+augroup END
+
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+

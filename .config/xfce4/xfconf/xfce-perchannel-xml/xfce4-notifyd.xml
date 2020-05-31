@@ -17,6 +17,7 @@
       <value type="string" value="Studio"/>
       <value type="string" value="Terminal Bookmark"/>
       <value type="string" value="thunar"/>
+      <value type="string" value="Thunderbird"/>
       <value type="string" value="TimerExtension"/>
       <value type="string" value="Transmission"/>
       <value type="string" value="udiskie"/>
@@ -37,7 +38,7 @@
   <property name="log-level" type="uint" value="0"/>
   <property name="log-level-apps" type="uint" value="0"/>
   <property name="theme" type="string" value="Default"/>
-  <property name="initial-opacity" type="double" value="0.870000"/>
+  <property name="initial-opacity" type="double" value="1.000000"/>
   <property name="do-slideout" type="bool" value="true"/>
   <property name="do-fadeout" type="bool" value="true"/>
 </channel>

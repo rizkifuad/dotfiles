@@ -68,6 +68,9 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # --color info:183,prompt:110,spinner:107,pointer:167,marker:215
 # "
 
+# Quickly setup dev env 
+alias tide="tmux split-window -v -p 30 && tmux split-window -h -p 50 && tmux select-pane -t 0"
+
 # History config
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000000
@@ -89,7 +92,7 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export GO111MODULE=on
+export GO111MODULE=auto
 
 export PATH=$PATH:$HOME/flutter/bin
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -97,3 +100,4 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$GOBIN
+export PATH=$HOME/.cargo/bin:$PATH

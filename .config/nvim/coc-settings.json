@@ -3,16 +3,6 @@
         "nextKeymap": "<C-n>",
         "previousKeymap": "<C-p>"
     },
-    "languageserver": {
-        "golang": {
-            "command": "go-langserver",
-            "filetypes": ["go"],
-            "initializationOptions": {
-                "gocodeCompletionEnabled": true,
-                "diagnosticsEnabled": true,
-                "lintTool": "golint"
-            }
-        }
-    },
+
     "svelte.plugin.typescript.diagnostics.enable": false
 }
