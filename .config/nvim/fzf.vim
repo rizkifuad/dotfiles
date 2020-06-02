@@ -52,3 +52,21 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+" Terminal bookmark
+function! s:opentermbookmark(lines)
+    " if len(a:lines) < 2 | return | endif
+
+    " let cmd = get({'ctrl-x': 'split',
+    "             \ 'ctrl-v': 'vertical split',
+    "             \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+    " execute cmd "coc.vim"
+    execute 'AsyncRun /home/rizki/work/personal/tbmk/target/debug/tbmk' .' "'. a:lines .'"'
+endfunction
+command! -bang TermBookmark call fzf#run(fzf#wrap({
+            \ 'source': '/home/rizki/work/personal/tbmk/target/debug/tbmk', 
+            \ 'sink': function('s:opentermbookmark'),
+            \ 'options': '--ansi --prompt="Terminal Bookmark: "'
+            \ }))
+
+" nmap <space>a :TermBookmark<cr>

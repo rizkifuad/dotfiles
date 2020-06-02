@@ -1,4 +1,5 @@
 {
+    "pairs.enableCharacters": ["(", "[", "{", "'", "\"", "`"],
     "list": {
         "nextKeymap": "<C-n>",
         "previousKeymap": "<C-p>"

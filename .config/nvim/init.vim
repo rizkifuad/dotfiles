@@ -13,17 +13,17 @@ Plug 'antoinemadec/coc-fzf'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 " Utility
-Plug 'tpope/vim-commentary'
 Plug 'preservim/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeCWD'] }
 Plug 'unblevable/quick-scope'
 Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'jiangmiao/auto-pairs'
-Plug 'skywind3000/asyncrun.vim'
+Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 filetype on
 
@@ -64,6 +64,9 @@ set background=dark " Set dark background
 colorscheme nord
 set fillchars+=vert:\|
 highlight CursorLineNr cterm=bold,italic gui=bold,italic
+" Italic comment
+highlight Comment cterm=italic gui=italic
+
 " Setup statusbar
 let g:lightline = {
       \ 'colorscheme': 'nord',
@@ -80,11 +83,14 @@ let g:lightline = {
 " Open folder tree
 nmap <silent><leader>a :NERDTreeToggle<cr>
 nmap <silent><leader>k :NERDTreeCWD<cr>
+
 " Quick open config file
 map <silent> <leader>ev :tabnew<cr>:lcd ~/.config/nvim<cr>:e init.vim<CR>
+
 " Lazy binding
 nmap ; :
 vmap ; :
+
 " Quick buffer back
 nmap <leader>b :b#<cr>
 " Quick open tab
@@ -131,13 +137,15 @@ endfunction
 " quick move
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" AsyncRun
-nmap <leader>y :copen<cr>:AsyncRun 
 
+" AsyncRun
+nmap '<Space> :copen<cr>:AsyncRun 
 " FZF
 so $HOME/.config/nvim/fzf.vim
 " Coc
 so $HOME/.config/nvim/coc.vim
+" CloseTag
+so $HOME/.config/nvim/close-tag.vim
 
 " Git utility
 function! s:changebranch(branch)
@@ -148,30 +156,14 @@ command! -bang Gbranch call fzf#run(fzf#wrap({
             \ 'sink': function('s:changebranch'),
             \ 'options': '--prompt="Switch Branch: "'
             \ }))
-" Terminal bookmark
-function! s:opentermbookmark(lines)
-    " if len(a:lines) < 2 | return | endif
 
-    " let cmd = get({'ctrl-x': 'split',
-    "             \ 'ctrl-v': 'vertical split',
-    "             \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-    " execute cmd "coc.vim"
-    execute 'AsyncRun /home/rizki/work/personal/tbmk/target/debug/tbmk' .' "'. a:lines .'"'
-endfunction
-command! -bang TermBookmark call fzf#run(fzf#wrap({
-            \ 'source': '/home/rizki/work/personal/tbmk/target/debug/tbmk', 
-            \ 'sink': function('s:opentermbookmark'),
-            \ 'options': '--ansi --prompt="Terminal Bookmark: "'
-            \ }))
-
-" nmap <space>a :TermBookmark<cr>
 nmap <silent> <leader>gs :Gstatus<CR><C-w>8+
 nmap <silent> <leader>ga :Git add --all<cr>
 nmap <silent> <leader>gc :Gcommit<CR><C-w>8+
 nmap <silent> <leader>gw :Gwrite<CR>
 nmap <leader>gn :Git checkout -b 
-nmap <leader>gl :copen<cr>:execute "AsyncRun git-push-open-pr " . fugitive#head(0)<CR>
-nmap <leader>gp :copen<cr>:execute "AsyncRun git push origin " . fugitive#head(0)<CR>
+nmap <silent> <leader>gl :copen<cr>:execute "AsyncRun git-push-open-pr " . fugitive#head(0)<CR>
+nmap <silent> <leader>gp :copen<cr>:execute "AsyncRun git push origin " . fugitive#head(0)<CR>
 nmap <leader>gb :Gbranch<cr>
 nmap <leader>gg :execute ":Git pull origin " . fugitive#head(0)<CR>
 
@@ -292,10 +284,8 @@ if filereadable('.local.vim')
     so .local.vim
 endif
 
+" Dart snippet
 autocmd BufRead,BufNewFile,BufEnter *.dart UltiSnipsAddFiletypes dart-flutter
-
-" Italic comment
-highlight Comment cterm=italic gui=italic
 
 " NERDTree config
 let NERDTreeShowHidden=1
@@ -307,6 +297,8 @@ augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("Substitute", 200)
 augroup END
+
+" Terminal config
 augroup neovim_terminal
     tnoremap <Esc> <C-\><C-n>
     autocmd!
@@ -318,5 +310,6 @@ augroup neovim_terminal
     autocmd TermOpen * :set nonumber norelativenumber
 augroup END
 
+" FZF Override
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
 
