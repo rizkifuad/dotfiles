@@ -1,12 +1,16 @@
 filetype off
+" Use vim-go instead of vim-polyglot/go
+let g:polyglot_disabled = ['go', 'svelte']
 call plug#begin('~/.nvim/plugged')
 " Appearance
 Plug 'itchyny/lightline.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'wadackel/vim-dogrun'
 " Language and ftp
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'sheerun/vim-polyglot'
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 " Snippet
@@ -17,13 +21,15 @@ Plug 'preservim/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeCWD'] }
 Plug 'unblevable/quick-scope'
 Plug 'benmills/vimux'
 Plug 'junegunn/fzf.vim'
+" Plug 'lotabout/skim.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'tpope/vim-repeat'
+
 call plug#end()
 filetype on
 
@@ -69,16 +75,40 @@ highlight Comment cterm=italic gui=italic
 
 " Setup statusbar
 let g:lightline = {
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
       \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'cocstatus' ,'modified' ] ]
+      \             [ 'gitbranch', 'readonly' ], ['cwd', 'filename', 'modified'] ],
+    \   'right': [ ['lineinfo'], ['percent'], ['cocstatus', 'fileformat', 'fileencoding', 'filetype'] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
+      \   'gitbranch': 'LightlineFugitive',
+      \   'cwd': 'LightlineCWD',
       \   'cocstatus': 'coc#status',
+      \   'filename': 'LightlineFilename',
       \ },
       \ }
+" CWD for lightline
+function! LightlineCWD()
+    let splitted = split(getcwd(), "/")
+    return '  ' .splitted[len(splitted)-1]
+endfunction
+function! LightlineFugitive()
+    if exists('*FugitiveHead')
+        let branch = FugitiveHead()
+        return branch !=# '' ? ' '.branch : ''
+    endif
+    return ''
+endfunction
+function! LightlineFilename()
+    let filename = expand("%:t")
+    if filename == ''
+        return ''
+    endif
+    return '  ' . expand("%:t")
+endfunction
 
 " Open folder tree
 nmap <silent><leader>a :NERDTreeToggle<cr>
@@ -118,10 +148,10 @@ nnoremap Y y$
 " enable . command in visual mode
 vnoremap . :normal .<cr>
 "Fast spliting
-map <silent> <C-h> :call WinMove('h')<cr>
-map <silent> <C-j> :call WinMove('j')<cr>
-map <silent> <C-k> :call WinMove('k')<cr>
-map <silent> <C-l> :call WinMove('l')<cr>
+nnoremap <silent> <C-h> :call WinMove('h')<cr>
+nnoremap <silent> <C-j> :call WinMove('j')<cr>
+nnoremap <silent> <C-k> :call WinMove('k')<cr>
+nnoremap <silent> <C-l> :call WinMove('l')<cr>
 function! WinMove(key)
     let t:curwin = winnr()
     exec "wincmd ".a:key
@@ -135,8 +165,8 @@ function! WinMove(key)
     endif
 endfunction
 " quick move
-vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
 
 " AsyncRun
 nmap '<Space> :copen<cr>:AsyncRun 
@@ -211,8 +241,8 @@ let &t_8b = "[48;2;%lu;%lu;%lum"
 " Set to true colors
 if has('termguicolors')
     set termguicolors " True colors
-  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+    let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 else
   set t_Co=256
 endif
@@ -248,8 +278,6 @@ function! InvertKV()
   :silent! %s/^- name: "\(.*\)"\n/\1=/g
 endfunction
 
-" Use vim-go instead of vim-polyglot/go
-let g:polyglot_disabled = ['go']
 " Rust
 let g:rustfmt_autosave = 1
 " Go
@@ -312,4 +340,24 @@ augroup END
 
 " FZF Override
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+autocmd! FileType skim tnoremap <buffer> <esc> <c-c>
 
+" JSON Formatter
+function! JSONFormat()
+    :%!python -m json.tool
+endfunction
+command! JSONFormat  call JSONFormat()
+
+function! JSONMinify()
+    :%s/^\s*//g 
+    :%s/\n//g
+endfunction
+command! JSONMinify  call JSONMinify()
+
+function! Minify()
+    :%s/^\s*//g 
+    norm ggVGgJ
+endfunction
+command! Minify  call Minify()
+set t_ZH=^[[3m
+set t_ZR=^[[23m

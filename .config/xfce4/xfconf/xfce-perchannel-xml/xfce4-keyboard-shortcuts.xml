@@ -41,13 +41,13 @@
       <property name="&lt;Super&gt;e" type="string" value="jumpapp thunar"/>
       <property name="&lt;Primary&gt;&lt;Super&gt;q" type="string" value="xflock4"/>
       <property name="&lt;Shift&gt;&lt;Super&gt;l" type="string" value="xflock4"/>
-      <property name="&lt;Super&gt;c" type="string" value="jumpapp -c google-chrome google-chrome-stable"/>
       <property name="&lt;Shift&gt;&lt;Super&gt;Return" type="string" value="jumpapp st -n xfce4-terminal -c Terminal"/>
       <property name="&lt;Super&gt;equal" type="string" value="xbacklight +1"/>
       <property name="&lt;Super&gt;minus" type="string" value="xbacklight -1"/>
       <property name="&lt;Super&gt;Return" type="string" value="jumpapp kitty"/>
       <property name="&lt;Super&gt;l" type="string" value="betterlockscreen -l blur"/>
       <property name="&lt;Super&gt;t" type="string" value="wmctrl -r :ACTIVE: -b toggle,above"/>
+      <property name="&lt;Super&gt;c" type="string" value="jumpapp chromium"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

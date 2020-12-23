@@ -14,6 +14,10 @@ fi
 source $HOME/.config/zsh/private.zsh
 # Custom prompt
 source $HOME/.config/zsh/prompt.zsh
+# Kubectl prompt
+source $HOME/.config/zsh/kubectl.zsh
+alias k=kubectl
+complete -F __start_kubectl k
 
 # Dotfiles bare repo
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
@@ -25,13 +29,14 @@ alias dpull="dotfiles pull origin master"
 # Quick systemctl
 alias ss="sudo systemctl start"
 alias sr="sudo systemctl restart"
+alias sst="sudo systemctl status"
 alias se="sudo systemctl enable"
 alias sx="sudo systemctl stop"
 # Tmux quick attach
 alias tma="tmux attach -t $1"
 # vim to neovim
 # alias vim=nvim
-alias kubectl="sudo kubectl"
+# alias kubectl="sudo kubectl"
 alias open="xdg-open"
 alias plantuml="plantuml -config $HOME/.config/plantuml"
 #alias katarun="source env && katarun && nodemon start.local.js"
@@ -89,7 +94,8 @@ export LC_CTYPE=C
 export LANG=C
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+# export KUBECONFIG=/etc/rancher/k3s/k3s.yaml:~/.kube/pil
+export KUBECONFIG=~/.kube/pil
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
@@ -100,4 +106,7 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$GOBIN
-export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
+
+alias pbcopy="xclip -selection clipboard"
