@@ -15,6 +15,12 @@ nnoremap <silent> <space>o  :<C-u>CocFzfList outline<CR>
 nnoremap <silent> <space>s  :<C-u>CocFzfList symbols<CR>
 nnoremap <silent> <space>S  :<C-u>CocFzfList services<CR>
 nnoremap <silent> <space>p  :<C-u>CocFzfListResume<CR>
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
 
 let g:coc_fzf_opts=['--layout=reverse']
 

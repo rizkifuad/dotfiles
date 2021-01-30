@@ -361,3 +361,16 @@ endfunction
 command! Minify  call Minify()
 set t_ZH=^[[3m
 set t_ZR=^[[23m
+
+function! Temp()
+    silent! :%s/finishInstrumentation(instrumentation)/instrumentation.finish()/g
+    silent! :g/const {.*this.instrumentationManager/d
+    silent! :%s/addCustomContext(instrumentation, /instrumentation.addCustomContext(/g
+    silent! :%s/const.*getTraceContext.*$/const traceContext = instrumentation.getTraceContext();/g
+endfunction
+command! Temp  call Temp()
+
+let g:go_gopls_enabled = 0
+
+" Open github/gitlab/bitbucket page current line
+nnoremap <leader>go :!git-blob-url % <C-R>=line('.')<CR> \| xargs xdg-open<CR><CR>

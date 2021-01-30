@@ -5,6 +5,7 @@
         "previousKeymap": "<C-p>"
     },
 
-    "svelte.plugin.typescript.diagnostics.enable": false
+    "svelte.plugin.typescript.diagnostics.enable": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 
 }

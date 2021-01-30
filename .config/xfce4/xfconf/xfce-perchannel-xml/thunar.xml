@@ -14,11 +14,12 @@
   <property name="shortcuts-icon-size" type="string" value="THUNAR_ICON_SIZE_32"/>
   <property name="shortcuts-icon-emblems" type="bool" value="true"/>
   <property name="tree-icon-emblems" type="bool" value="true"/>
-  <property name="last-details-view-zoom-level" type="string" value="THUNAR_ZOOM_LEVEL_75_PERCENT"/>
-  <property name="last-details-view-column-widths" type="string" value="50,129,50,50,1279,50,50,77,50,194"/>
-  <property name="last-sort-column" type="string" value="THUNAR_COLUMN_DATE_MODIFIED"/>
+  <property name="last-details-view-zoom-level" type="string" value="THUNAR_ZOOM_LEVEL_50_PERCENT"/>
+  <property name="last-details-view-column-widths" type="string" value="50,129,50,50,1492,50,50,75,50,111"/>
+  <property name="last-sort-column" type="string" value="THUNAR_COLUMN_NAME"/>
   <property name="last-sort-order" type="string" value="GTK_SORT_ASCENDING"/>
   <property name="misc-open-new-window-as-tab" type="bool" value="true"/>
   <property name="misc-text-beside-icons" type="bool" value="false"/>
   <property name="tree-icon-size" type="string" value="THUNAR_ICON_SIZE_48"/>
+  <property name="misc-confirm-close-multiple-tabs" type="bool" value="false"/>
 </channel>

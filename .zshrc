@@ -67,7 +67,7 @@ SSH_ENV=$HOME/.ssh/environment
 
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --no-ignore-vcs'
 # export FZF_DEFAULT_OPTS="
 # --color fg:188,bg:0,hl:103,fg+:222,bg+:0,hl+:104
 # --color info:183,prompt:110,spinner:107,pointer:167,marker:215
@@ -95,7 +95,7 @@ export LANG=C
 
 export ANDROID_HOME=$HOME/Android/Sdk
 # export KUBECONFIG=/etc/rancher/k3s/k3s.yaml:~/.kube/pil
-export KUBECONFIG=~/.kube/pil
+export KUBECONFIG=~/.kube/pil:~/.kube/config
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
@@ -110,3 +110,6 @@ export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
 
 alias pbcopy="xclip -selection clipboard"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
