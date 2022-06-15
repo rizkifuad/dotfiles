@@ -57,7 +57,7 @@ end
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
-  local success, result = pcall(loadstring(s))
+  local success, result = pcall(loadstring(s), name, _G.packer_plugins[name])
   if not success then
     vim.schedule(function()
       vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
@@ -69,203 +69,213 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   LuaSnip = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/LuaSnip"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    url = "https://github.com/L3MON4D3/LuaSnip"
+  },
+  ["bufferline.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
+    url = "https://github.com/akinsho/bufferline.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-buffer"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    url = "https://github.com/hrsh7th/cmp-buffer"
+  },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
   },
   ["cmp-nvim-lsp"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp"
-  },
-  ["cmp-nvim-lua"] = {
-    loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
   ["cmp-path"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-path"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
   },
   cmp_luasnip = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp_luasnip"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
+  },
+  ["darkplus.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/darkplus.nvim",
+    url = "https://github.com/lunarvim/darkplus.nvim"
   },
   ["friendly-snippets"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/friendly-snippets"
-  },
-  ["git-blame.nvim"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/git-blame.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    url = "https://github.com/rafamadriz/friendly-snippets"
   },
   ["gitlinker.nvim"] = {
     loaded = false,
     needs_bufread = false,
     only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/gitlinker.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/gitlinker.nvim",
+    url = "https://github.com/ruifm/gitlinker.nvim"
   },
   ["gitsigns.nvim"] = {
-    config = { "\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/gitsigns.nvim"
-  },
-  ["lsp-colors.nvim"] = {
-    config = { "\27LJ\2\n¬\1\0\0\5\0\r\0\0186\0\0\0'\2\1\0B\0\2\0026\1\0\0'\3\2\0B\1\2\0029\1\3\0015\3\5\0009\4\4\0=\4\6\0039\4\a\0=\4\b\0039\4\t\0=\4\n\0039\4\v\0=\4\f\3B\1\2\1K\0\1\0\tHint\tblue\16Information\ngreen\fWarning\vyellow\nError\1\0\0\bred\nsetup\15lsp-colors\16core.colors\frequire\0" },
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
+  ["impatient.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/impatient.nvim",
+    url = "https://github.com/lewis6991/impatient.nvim"
   },
   ["lualine.nvim"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/lualine.nvim"
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["nightfox.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
+    url = "https://github.com/EdenEast/nightfox.nvim"
+  },
+  ["nlsp-settings.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim",
+    url = "https://github.com/tamago324/nlsp-settings.nvim"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-autopairs"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,
-    needs_bufread = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-cmp"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-colorizer.lua"] = {
-    config = { "\27LJ\2\nM\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\4\0\0\bcss\tscss\thtml\nsetup\14colorizer\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-colorizer.lua"
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
+    url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
-  ["nvim-comment"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-comment"
+  ["nvim-lsp-installer"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
+    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
-  },
-  ["nvim-tabline"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-tabline"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-tree.lua"] = {
-    commands = { "NvimTreeToggle", "NvimTreeFindFile" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-tree.lua"
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
-  ["nvim-ts-autotag"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/nvim-ts-autotag"
+  ["nvim-treesitter-textobjects"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-treesitter-textobjects",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+  },
+  ["nvim-ts-context-commentstring"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-ts-context-commentstring",
+    url = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    url = "https://github.com/wbthomason/packer.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
   },
-  ["project.nvim"] = {
+  ["popup.nvim"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/project.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/popup.nvim",
+    url = "https://github.com/nvim-lua/popup.nvim"
   },
-  ["telescope-fzy-native.nvim"] = {
+  ["telescope-fzf-native.nvim"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
+    url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+  },
+  ["telescope-live-grep-raw.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope-live-grep-raw.nvim",
+    url = "https://github.com/nvim-telescope/telescope-live-grep-raw.nvim"
+  },
+  ["telescope-project.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope-project.nvim",
+    url = "https://github.com/nvim-telescope/telescope-project.nvim"
+  },
+  ["telescope-ui-select.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
+    url = "https://github.com/nvim-telescope/telescope-ui-select.nvim"
   },
   ["telescope.nvim"] = {
-    commands = { "Telescope" },
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/telescope.nvim"
-  },
-  ["trouble.nvim"] = {
-    commands = { "Trouble" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/trouble.nvim"
-  },
-  ["twig.vim"] = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/twig.vim"
-  },
-  ["vim-dogrun"] = {
     loaded = true,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/vim-dogrun"
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["tokyonight.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    url = "https://github.com/folke/tokyonight.nvim"
   },
   ["vim-fugitive"] = {
-    commands = { "Git" },
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/rizki/.local/share/nvim/site/pack/packer/opt/vim-fugitive"
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
+  },
+  ["which-key.nvim"] = {
+    loaded = true,
+    path = "/Users/rizki/.local/share/nvim/site/pack/packer/start/which-key.nvim",
+    url = "https://github.com/folke/which-key.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: lsp-colors.nvim
-time([[Config for lsp-colors.nvim]], true)
-try_loadstring("\27LJ\2\n¬\1\0\0\5\0\r\0\0186\0\0\0'\2\1\0B\0\2\0026\1\0\0'\3\2\0B\1\2\0029\1\3\0015\3\5\0009\4\4\0=\4\6\0039\4\a\0=\4\b\0039\4\t\0=\4\n\0039\4\v\0=\4\f\3B\1\2\1K\0\1\0\tHint\tblue\16Information\ngreen\fWarning\vyellow\nError\1\0\0\bred\nsetup\15lsp-colors\16core.colors\frequire\0", "config", "lsp-colors.nvim")
-time([[Config for lsp-colors.nvim]], false)
-
--- Command lazy-loads
-time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeFindFile lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeFindFile", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Git lua require("packer.load")({'vim-fugitive'}, { cmd = "Git", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Trouble lua require("packer.load")({'trouble.nvim'}, { cmd = "Trouble", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-time([[Defining lazy-load commands]], false)
-
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
-  -- Filetype lazy-loads
-time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType twig ++once lua require("packer.load")({'twig.vim'}, { ft = "twig" }, _G.packer_plugins)]]
-vim.cmd [[au FileType css ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "css" }, _G.packer_plugins)]]
-vim.cmd [[au FileType scss ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "scss" }, _G.packer_plugins)]]
-vim.cmd [[au FileType html ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "html" }, _G.packer_plugins)]]
-time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'git-blame.nvim', 'gitsigns.nvim', 'nvim-comment', 'gitlinker.nvim', 'nvim-tabline', 'lualine.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'gitlinker.nvim'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
-vim.cmd("augroup END")
-vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /Users/rizki/.local/share/nvim/site/pack/packer/opt/twig.vim/ftdetect/twig.vim]], true)
-vim.cmd [[source /Users/rizki/.local/share/nvim/site/pack/packer/opt/twig.vim/ftdetect/twig.vim]]
-time([[Sourcing ftdetect script at: /Users/rizki/.local/share/nvim/site/pack/packer/opt/twig.vim/ftdetect/twig.vim]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)
 
 if not no_errors then
+  error_msg = error_msg:gsub('"', '\\"')
   vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end
