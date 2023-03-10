@@ -32,7 +32,7 @@ local diff = {
 
 local mode = {
 	"mode",
-	fmt = function(str)
+	fmt = function()
 		return " "
 	end,
 }
@@ -68,6 +68,13 @@ local spaces = function()
 	return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
 
+
+local nvim_navic = require("nvim-navic")
+
+local navic = {
+nvim_navic.get_location, cond = nvim_navic.is_available
+}
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -81,7 +88,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { mode  },
 		lualine_b = { branch },
-		lualine_c = {"filename", diff},
+		lualine_c = {"filename", navic, diff},
 		-- lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_x = { diagnostics, spaces, "encoding", filetype },
 		lualine_y = { location },

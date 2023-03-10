@@ -6,6 +6,7 @@ end
 configs.setup {
   ensure_installed = {
     "bash",
+    "fish",
     "html",
     "javascript",
     "css",
@@ -14,10 +15,14 @@ configs.setup {
     "rust",
     "go",
     "typescript",
+    "astro"
   }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = { "" }, -- List of parsers to ignore installing
   autopairs = {
+    enable = true,
+  },
+  autotag = {
     enable = true,
   },
   highlight = {

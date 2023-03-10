@@ -9,7 +9,7 @@ telescope.setup {
   defaults = {
     prompt_prefix = " ",
     selection_caret = " ",
-    path_display = { "smart" },
+    path_display = { "truncate" },
 
     mappings = {
       i = {
@@ -112,7 +112,7 @@ telescope.setup {
     }
   },
 }
-telescope.load_extension "fzf"
+telescope.load_extension("fzf")
 telescope.load_extension("live_grep_args")
 telescope.load_extension("ui-select")
 telescope.load_extension('project')
@@ -121,10 +121,7 @@ telescope.load_extension('project')
 map('n', '<C-p>', '<cmd>Telescope find_files previewer=false<cr>')
 map('n', '\\', '<cmd>Telescope buffers<cr>')
 map('n', '<space><space>', "<cmd>lua require'telescope'.extensions.project.project{}<cr>")
--- map('n', '<space>o', '<cmd>lua telescope_symbols()<cr>')
-map('n', '<space>o', '<cmd>lua telescope_symbols()<cr>')
--- vim.cmd('nnoremap <leader>f :lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>')
--- vim.cmd('autocmd! FileType TelescopePrompt imap <esc> <c-c>')
+map('n', '<leader>f', '<cmd>Telescope live_grep<cr>')
 
 function _G.telescope_symbols()
   local opts = {
@@ -132,6 +129,7 @@ function _G.telescope_symbols()
       "function",
       "constructor",
       "method",
+      "struct"
     }
   }
   require('telescope.builtin').lsp_document_symbols(opts)

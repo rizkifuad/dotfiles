@@ -74,7 +74,7 @@ nvim_tree.setup {
   },
   filters = {
     dotfiles = false,
-    custom = {},
+    custom = { ".git$"},
   },
   git = {
     enable = true,
@@ -83,7 +83,6 @@ nvim_tree.setup {
   },
   view = {
     width = 30,
-    height = 30,
     hide_root_folder = false,
     side = "right",
     mappings = {
@@ -103,9 +102,9 @@ nvim_tree.setup {
   },
   actions = {
     open_file = {
-      quit_on_open = true,
+      quit_on_open = false,
       window_picker = {
-            enable = false,
+        enable = false,
       },
     },
   },
@@ -114,18 +113,7 @@ nvim_tree.setup {
     icons = {
       glyphs = nvim_tree_icons
     }
-  }
-
---  unknown options as of 22.05
---
---  update_to_buf_dir = {
---    enable = true,
---    auto_open = true,
---  },
---  auto_resize = true,
---  git_hl = 1,
---  root_folder_modifier = ":t",
-
+  },
 }
 
 vim.cmd('let g:nvim_tree_disable_window_picker = 1')

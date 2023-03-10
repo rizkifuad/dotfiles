@@ -1,8 +1,8 @@
-vim.g.tokyonight_style = "night"
+vim.g.tokyonight_style = "moon"
 vim.g.tokyonight_italic_functions = false
 vim.cmd [[
 try
-  colorscheme duskfox
+  colorscheme tokyonight
   hi NvimTreeVertSplit guifg=#15161E 
   hi WinSeparator guifg=#414868
 catch /^Vim\%((\a\+)\)\=:E185/

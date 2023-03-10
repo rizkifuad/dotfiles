@@ -8,16 +8,6 @@ if not snip_status_ok then
   return
 end
 
-
---
-luasnip.add_snippets("all", require"user.snippet.all")
-luasnip.add_snippets("typescriptreact", require"user.snippet.typescriptreact")
-
-luasnip.filetype_extend("typescriptreact", { "html" })
-luasnip.filetype_extend("javascriptreact", { "typescriptreact" })
-
-require("luasnip/loaders/from_vscode").lazy_load()
-
 luasnip.config.setup({
   history = true,
 	update_events = "TextChanged,TextChangedI",
@@ -25,6 +15,12 @@ luasnip.config.setup({
 	delete_check_events = "TextChanged",
 })
 
+require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
+require("luasnip/loaders/from_vscode").lazy_load()
+
+luasnip.filetype_extend("typescriptreact", { "html" })
+luasnip.filetype_extend("dart", { "flutter" })
+luasnip.filetype_extend("javascriptreact", { "typescriptreact" })
 
 local check_backspace = function()
   local col = vim.fn.col "." - 1
@@ -68,8 +64,8 @@ cmp.setup {
     end,
   },
   mapping = {
-    ["<C-k>"] = cmp.mapping.select_prev_item(),
-		["<C-j>"] = cmp.mapping.select_next_item(),
+    --[[ ["<C-k>"] = cmp.mapping.select_prev_item(), ]]
+		--[[ ["<C-j>"] = cmp.mapping.select_next_item(), ]]
     ["<C-p>"] = cmp.mapping.select_prev_item(),
 		["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
@@ -123,14 +119,18 @@ cmp.setup {
         luasnip = "[Snippet]",
         buffer = "[Buffer]",
         path = "[Path]",
+        omni = "[Omni]",
+        cmp_tabnine = "[TabNine]",
       })[entry.source.name]
       return vim_item
     end,
   },
   sources = {
+    { name = "cmp_tabnine" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "buffer" },
+    { name = "omni" },
     { name = "path" },
   },
   confirm_opts = {
