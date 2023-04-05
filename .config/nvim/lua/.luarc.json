@@ -1,0 +1,27 @@
+{
+    "workspace.library": [
+        "/Users/rizki/.config/nvim",
+        "/Users/rizki/.local/share/nvim/lazy/lazy.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/cmp-nvim-lsp",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-navic",
+        "/Users/rizki/.local/share/nvim/lazy/null-ls.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/neodev.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/fidget.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/mason-lspconfig.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/mason.nvim",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-lspconfig",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-treesitter-textobjects",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-ts-context-commentstring",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-ts-autotag",
+        "/Users/rizki/.local/share/nvim/lazy/nvim-treesitter",
+        "/Users/rizki/.local/share/nvim/lazy/catppuccin",
+        "/Users/rizki/.local/share/neovim/share/nvim/runtime",
+        "/Users/rizki/.local/share/neovim/lib/nvim",
+        "/Users/rizki/.local/share/nvim/lazy/cmp-nvim-lsp/after",
+        "/Users/rizki/.local/share/nvim/lazy/catppuccin/after",
+        "/Users/rizki/.config/nvim/after",
+        "/Users/rizki/.local/state/nvim/lazy/readme",
+        "${3rd}/luassert/library",
+        "${3rd}/luv/library"
+    ]
+}

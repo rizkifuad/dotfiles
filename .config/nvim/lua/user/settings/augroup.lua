@@ -1,0 +1,28 @@
+vim.cmd [[
+  augroup _general_settings
+    autocmd!
+    autocmd FileType qf,help,man,lspinfo nnoremap <silent> <buffer> q :close<CR> 
+    autocmd TextYankPost * silent!lua require('vim.highlight').on_yank({higroup = 'Visual', timeout = 100}) 
+    autocmd FileType qf set nobuflisted
+    autocmd BufWinEnter * :set formatoptions-=cro
+  augroup end
+
+  augroup _git
+    autocmd!
+    autocmd FileType gitcommit setlocal wrap
+    autocmd FileType gitcommit setlocal spell
+  augroup end
+
+  augroup _markdown
+    autocmd!
+    autocmd FileType markdown setlocal wrap
+    autocmd FileType markdown setlocal spell
+  augroup end
+
+
+  function! PublishMarkdown()
+    silent !markdown-to-html-cli --source % --output /tmp/%.html
+    silent !open /tmp/%.html
+  endfunction
+  autocmd FileType markdown nnoremap <space>p :call PublishMarkdown()<cr>
+]]
