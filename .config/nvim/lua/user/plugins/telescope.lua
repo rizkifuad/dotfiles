@@ -123,7 +123,8 @@ function _G.telescope_symbols()
       "function",
       "constructor",
       "method",
-      "struct"
+      "struct",
+      "constant"
     }
   }
   require('telescope.builtin').lsp_document_symbols(opts)

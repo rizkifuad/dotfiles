@@ -57,7 +57,7 @@ export const {}Provider = ({{ children }}: {{ children: ReactNode}}) => {{
         open
       }}}}
     >
-      {{props.children}}
+      {{children}}
     </{}.Provider>
   );
 }};
@@ -87,7 +87,7 @@ export const {}Provider = (props: {{ children: JSX.Element }}) => {{
         open
       }}}}
     >
-      {{props.children}}
+      {{children}}
     </{}.Provider>
   );
 }};

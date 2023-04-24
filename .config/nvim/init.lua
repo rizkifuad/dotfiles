@@ -42,6 +42,28 @@ require("lazy").setup({
   },
 
   {
+    "folke/tokyonight.nvim",
+    priority = 1000,
+    lazy = false,
+    config = function()
+      -- require("catppuccin").setup {
+      -- integrations = {
+      -- native_lsp = {
+      -- enabled = true,
+      -- underlines = {
+      -- errors = { "undercurl" },
+      -- hints = { "undercurl" },
+      -- warnings = { "undercurl" },
+      -- information = { "undercurl" },
+      -- },
+      -- },
+      -- }
+      -- }
+      -- vim.cmd.colorscheme "tokyonight"
+    end
+  },
+
+  {
     "akinsho/bufferline.nvim",
     config = function()
       require("user.plugins.bufferline")
@@ -64,17 +86,15 @@ require("lazy").setup({
   },
 
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    lazy = true,
-    cmd = "Neotree",
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
+    cmd = {"NvimTreeToggle", "NvimTreeFocus"},
     config = function()
-      require("user.plugins.neotree")
-    end
+      require("user.plugins.nvimtree")
+    end,
   },
 
   {
@@ -208,11 +228,11 @@ require("lazy").setup({
   },
 
   {
-    "ggandor/lightspeed.nvim",
-    event = "BufRead",
+    "phaazon/hop.nvim",
     lazy = true,
+    event = "BufRead",
     config = function()
-      require "user.plugins.lightspeed"
+      require "user.plugins.hop"
     end
   },
 
@@ -226,5 +246,14 @@ require("lazy").setup({
     "Exafunction/codeium.vim",
     event = "BufRead",
     lazy = true
+  },
+
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = function()
+      require "user.plugins.toggleterm"
+    end
   }
+
 })

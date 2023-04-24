@@ -60,9 +60,8 @@ keymap('n', '<leader>4', '<cmd>set tabstop=4 shiftwidth=4 softtabstop=4<cr>', op
 keymap('n', '<leader>8', '<cmd>set tabstop=8 shiftwidth=8 softtabstop=8<cr>', opts)
 
 -- Neotree --
-keymap('n', '<leader>a', '<cmd>Neotree toggle reveal_force_cwd<cr>', opts)
-keymap('n', '<leader>k', '<cmd>Neotree reveal_force_cwd<cr>', opts)
-keymap('n', '<leader>z', '<cmd>Neotree float<cr>', opts)
+keymap('n', '<leader>a', '<cmd>NvimTreeToggle<cr>', opts)
+keymap('n', '<leader>k', '<cmd>NvimTreeFocus<cr>', opts)
 
 -- Telescope --
 keymap('n', '<leader>r', '<cmd>Telescope oldfiles<cr>', opts)
@@ -100,8 +99,7 @@ keymap('n', ']e', ':<c-u>execute "move +". v:count1<cr>', opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 keymap("v", ".", ":norm .<cr>", opts)
-keymap("v", "<leader>b", ":norm gbc<cr>", opts)
-keymap("v", "<leader>c", ":norm gcc<cr>", opts)
+keymap("v", "<leader>c", "<Plug>(comment_toggle_blockwise_visual)", opts)
 keymap("v", "go", '<cmd>:lua require"gitlinker".get_buf_range_url("v")<cr>', opts)
 
 -- Visual Block --
@@ -111,7 +109,7 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 
 --Term--
 keymap("t", "<Esc>", "<C-\\><C-n>", opts)
-keymap("n", "<C-t>", ":tabnew<cr>:term<cr>a", opts)
+-- keymap("n", "<C-t>", ":tabnew<cr>:term<cr>a", opts)
 
 -- Debugging --
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)

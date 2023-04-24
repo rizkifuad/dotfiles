@@ -14,10 +14,11 @@ configs.setup {
     "css",
     "json",
     "yaml",
-    -- "rust",
+    "rust",
     "go",
     "typescript",
     "tsx",
+    "svelte"
     -- "lua",
     -- "astro"
   },                       -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -33,8 +34,10 @@ configs.setup {
     enable = true
   },
   highlight = {
-    enable = true,    -- false will disable the whole extension
-    disable = { "" }, -- list of language that will be disabled
+    enable = true, -- false will disable the whole extension
+    disable = function()
+      return vim.b.large_buf
+    end,
     additional_vim_regex_highlighting = true,
   },
   indent = { enable = true, disable = { "yaml" } },
@@ -48,10 +51,14 @@ configs.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = '<c-space>',
+      init_selection = "<CR>",
+      node_incremental = "<CR>",
+      scope_incremental = "<Tab>",
+      node_decremental = "<S-Tab>",
+      --[[ init_selection = '<c-space>',
       node_incremental = '<c-space>',
       scope_incremental = '<c-s>',
-      node_decremental = '<M-space>',
+      node_decremental = '<M-space>', ]]
     },
   },
   textobjects = {
@@ -74,6 +81,14 @@ configs.setup {
       goto_next_start = {
         [']m'] = '@function.outer',
         [']]'] = '@class.outer',
+        -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
+        ["]o"] = "@loop.*",
+        -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+        --
+        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
       },
       goto_next_end = {
         [']M'] = '@function.outer',
@@ -87,6 +102,12 @@ configs.setup {
         ['[M'] = '@function.outer',
         ['[]'] = '@class.outer',
       },
+      goto_next = {
+        ["]d"] = "@conditional.outer",
+      },
+      goto_previous = {
+        ["[d"] = "@conditional.outer",
+      }
     },
     swap = {
       enable = true,

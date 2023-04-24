@@ -25,9 +25,9 @@ mason_lspconfig.setup_handlers {
       capabilities = require("user.lsp.handlers").capabilities,
     }
 
-    local has_custom_opts, server_custom_opts = pcall(require, "user.lsp.langs" .. server_name)
+    local has_custom_opts, server_custom_opts = pcall(require, "user.lsp.langs." .. server_name)
     if has_custom_opts then
-      opts.settings = server_custom_opts
+      opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
     end
 
     lspconfig[server_name].setup(opts)
@@ -47,4 +47,3 @@ mason_nvim_dap.setup {
     'delve',
   },
 }
-mason_nvim_dap.setup_handlers()
