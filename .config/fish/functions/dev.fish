@@ -1,6 +1,6 @@
 function dev -w "start development window"
-  tmux split-window -v
-  tmux select-layout even-vertical
+  tmux split-window -v -l 20
+  # tmux select-layout even-vertical
   tmux select-pane -t 0
   set -l icon
   if test -f package.json

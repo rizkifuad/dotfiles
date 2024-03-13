@@ -299,6 +299,23 @@ require("lazy").setup({
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
-  }
+  },
+{
+  'kristijanhusak/vim-dadbod-ui',
+  dependencies = {
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+}
 
 })

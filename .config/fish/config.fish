@@ -14,8 +14,9 @@ if status is-interactive
   # set -x GOROOT $HOME/go
   set -x GOBIN $GOPATH/bin
 
-  set -x ANDROID_SDK_ROOT $HOME/Library/Android/sdk
-  set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+  set -x ANDROID_SDK_ROOT $HOME/Android/Sdk
+  set -x ANDROID_HOME $HOME/Android/Sdk
+  set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
 
   # Setting PATH
   set PATH $HOME/.local/bin $PATH
@@ -74,3 +75,7 @@ if status is-interactive
 end
 
 set -x N_PREFIX "$HOME/.n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+set -x N_PREFIX "$HOME/.n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+alias gsed="sed"
