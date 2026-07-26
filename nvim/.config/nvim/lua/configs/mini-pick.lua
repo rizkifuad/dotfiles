@@ -43,7 +43,7 @@ vim.api.nvim_set_hl(0, 'MiniPickBorder', { bg = C.crust, fg = C.crust })
 
 pick.registry.files_with_hidden = function()
   -- Add the --hidden flag to the fd command
-  local command = { 'fd', '--type=f', '--no-follow', '--color=never', '--hidden', '--no-ignore-vcs', '--exclude=.git' }
+  local command = { 'fd', '--type=f', '--no-follow', '--color=never', '--hidden', '--exclude=.git' }
   local show_with_icons = function(buf_id, items, query)
     return pick.default_show(buf_id, items, query, { show_icons = true })
   end
@@ -51,3 +51,53 @@ pick.registry.files_with_hidden = function()
 
   return pick.builtin.cli({ command = command }, { source = source })
 end
+
+
+vim.keymap.set("n", "<leader>gb", function()
+  require('mini.pick').start({
+    source = {
+      name = 'Git Branch Switcher',
+
+      items = function()
+        local result = vim.fn.systemlist("git branch --all --no-color")
+        local items = {}
+
+        for _, line in ipairs(result) do
+          -- Clean branch name
+          local branch = line:gsub("^%*%s*", ""):gsub("^%s*", "")
+
+          -- Skip HEAD detached refs
+          if not branch:match("HEAD") then
+            table.insert(items, {
+              desc = branch,
+              cmd = function()
+                -- Remove "remotes/origin/" prefix if exists
+                local clean = branch:gsub("^remotes/origin/", "")
+                vim.cmd("Git checkout " .. clean)
+              end,
+            })
+          end
+        end
+
+        return items
+      end,
+
+      show = function(buf_id, items, _)
+        local lines = vim.tbl_map(function(v)
+          return v.desc
+        end, items)
+        vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+      end,
+
+      choose = function(item)
+        if not item then return end
+
+        if type(item.cmd) == "function" then
+          item.cmd()
+        else
+          vim.cmd(item.cmd)
+        end
+      end,
+    }
+  })
+end, { desc = "Git Branch Switcher" })

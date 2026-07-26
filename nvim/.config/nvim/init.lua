@@ -21,8 +21,9 @@ vim.pack.add({
   { src = gh('mason-org/mason.nvim') },
   { src = gh('mason-org/mason-lspconfig.nvim') },
   { src = gh('nvim-treesitter/nvim-treesitter'), version = 'main' },
+  { src = gh('nvim-treesitter/nvim-treesitter-textobjects'), version = 'main' },
 })
-require('configs.lsp')
+require('configs/lsp')
 
 -- Treesitter
 require('nvim-treesitter.config').setup({
@@ -30,36 +31,11 @@ require('nvim-treesitter.config').setup({
 })
 
 vim.pack.add({
-  {src = gh('windwp/nvim-autopairs')}
+  { src = gh('windwp/nvim-autopairs') }
 })
-require("nvim-autopairs").setup({
-  map_cr = false,
-  map_bs = true,
-})
-
-vim.keymap.set("i", "<CR>", function()
-  if vim.fn.pumvisible() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
-  end
-
-  return require("nvim-autopairs").autopairs_cr()
-end, {
-  expr = true,
-  replace_keycodes = false,
-})
+require("configs/autopairs")
 
 
-vim.pack.add({
-  { src = gh('NvChad/nvim-colorizer.lua') },
-})
-
-require 'colorizer'.setup {
-  'css',
-  'javascript',
-  html = {
-    mode = 'foreground',
-  }
-}
 
 -- Fugitive
 vim.pack.add({
@@ -82,19 +58,46 @@ vim.pack.add({
   } })
 
 
-require('mini.extra').setup()
-require('mini.cmdline').setup()
-require('mini.git').setup()
 require('mini.icons').setup()
 require('mini.completion').setup()
-require('mini.diff').setup({
-  mappings = { apply =  ''},
-  view = { style = "sign", signs = {
-  add = '▎', change = '▎', delete = ' '
-}}})
 
+local misc = require('mini.misc')
+local later = function(f) misc.safely('later', f) end
+later(function() require('mini.cmdline').setup() end)
+later(function() require('mini.extra').setup() end)
+require('mini.git').setup()
+later(function() require('mini.indentscope').setup() end)
+later(function()
+  require('mini.diff').setup({
+    mappings = { apply = '' },
+    view = {
+      style = "sign",
+      signs = {
+        add = '▎', change = '▎', delete = ' '
+      }
+    }
+  })
+end)
+later(function() require('configs.mini-pick') end)
+later(function() require('configs.mini-clue') end)
 
-require('configs.mini-pick')
+later(function() vim.opt.clipboard = "unnamedplus" end)
+later(MiniIcons.tweak_lsp_kind)
+
 require('configs.mini-files')
-require('configs.mini-clue')
 require('configs.mini-statusline')
+
+
+vim.pack.add({
+  { src = gh('NvChad/nvim-colorizer.lua') },
+})
+
+later(function()
+  require 'colorizer'.setup {
+    'css',
+    'javascript',
+    html = {
+      mode = 'foreground',
+    }
+  }
+end)

@@ -41,6 +41,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('gD', function() MiniExtra.pickers.lsp({ scope = "declaration" }) end, '[G]oto [D]eclaration')
     map('<space>f', vim.lsp.buf.format, 'Format')
     map('gO', function() MiniExtra.pickers.lsp({ scope = 'document_symbol' }) end, 'Document symbol')
+    map('<space>o', function() MiniExtra.pickers.lsp({ scope = 'document_symbol' }) end, 'Document symbol')
     map('gr', function() MiniExtra.pickers.lsp({ scope = 'references' }) end, 'References')
     map('gi', function() MiniExtra.pickers.lsp({ scope = 'implementation' }) end, 'Implementations')
     map('<leader>dn', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Diagnostic Next')

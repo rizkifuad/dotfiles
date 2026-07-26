@@ -11,17 +11,17 @@
 
 riverctl spawn "dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS SEATD_SOCK DISPLAY WAYLAND_DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP=river"
 riverctl spawn "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-riverctl spawn "way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1"
-riverctl spawn "waybar -c ~/.config/waybar/river/config -s ~/.config/waybar/river/style.css"
-riverctl spawn mako
+# riverctl spawn "way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1"
+# riverctl spawn "waybar -c ~/.config/waybar/river/config -s ~/.config/waybar/river/style.css"
+# riverctl spawn mako
 riverctl spawn "sh ~/.config/river/scripts/pkill_bc"
 riverctl spawn "nm-applet --indicator"
-riverctl spawn "swayidle -w timeout 600 ~/.config/river/scripts/wayland_session_lock"
-riverctl spawn "wl-clipboard-histry -t"
-riverctl spawn "wl-paste --type text --watch cliphist store"
-riverctl spawn "wl-paste --type images --watch cliphist store"
-riverctl spawn mpd
-riverctl spawn mpDris
+# riverctl spawn "swayidle -w timeout 600 ~/.config/river/scripts/wayland_session_lock"
+# riverctl spawn "wl-clipboard-histry -t"
+# riverctl spawn "wl-paste --type text --watch cliphist store"
+# riverctl spawn "wl-paste --type images --watch cliphist store"
+# riverctl spawn mpd
+# riverctl spawn mpDris
 
 #way-displays -s SCALE "DP-2" 1.375
 
@@ -41,7 +41,7 @@ riverctl map normal Super Q close
 #bash "$HOME"/.config/river/autostart.sh
 
 # Launcher
-riverctl map normal Super D spawn "rofi -show drun"
+riverctl map normal Super D spawn "fuzzel"
 
 # Exit river
 riverctl map normal Super E spawn "$HOME/.config/river/scripts/rofi_powermenu"

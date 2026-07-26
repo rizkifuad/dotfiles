@@ -91,3 +91,5 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineError",{ undercurl=true, bg = C.base,
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { undercurl=true, bg = C.base, fg = C.blue })
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl=true, bg = C.base, fg = C.yellow })
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl=true, bg = C.base, fg = C.teal })
+
+vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {  fg = C.blue })

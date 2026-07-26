@@ -137,5 +137,3 @@ map("n", "<C-h>", function() win_move("h") end)
 map("n", "<C-j>", function() win_move("j") end)
 map("n", "<C-k>", function() win_move("k") end)
 map("n", "<C-l>", function() win_move("l") end)
-
-
