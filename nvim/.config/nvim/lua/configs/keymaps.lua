@@ -1,4 +1,5 @@
 local map = vim.keymap.set
+  vim.cmd.start()
 local opts = function(desc)
   return { noremap = true, silent = true, nowait = false, desc = desc }
 end
@@ -47,6 +48,7 @@ map("n", "gl", "$", opts("Jump to first available letter"))
 map("n", "gh", "^", opts("Jump to last available letter"))
 map("n", "gb", function() require("mini.pick").builtin.buffers() end, opts("Buffer list"))
 map("n", "s", function() require("flash").jump() end, opts("Jump"))
+map("n", "<leader>cd", ":lcd %:p:h<cr>", opts("Jump"))
 
 -- Qflist Loclist
 map("n", "<leader>co", ':copen<cr>', opts("Quickfix Open"))
@@ -64,7 +66,7 @@ map("n", "<leader>lp", ':lprev<cr>', opts("Loclist Previous"))
 
 -- Basic Navigation
 map('n', '<leader>b', '<cmd>b#<cr>', opts("Previous buffer"))
-map('n', '<leader>t', '<cmd>tabnew<cr>', opts("Open new tab"))
+map('n', '<leader>h', '<cmd>hide<cr>', opts("Hide buffer"))
 map('n', '<leader>w', '<cmd>w!<cr>', opts("Save file"))
 map('n', '<leader>q', '<cmd>q!<cr>', opts("Quit"))
 map('n', '<leader><space>', '<cmd>nohlsearch<cr>', opts("Disable highlight"))
@@ -137,3 +139,37 @@ map("n", "<C-h>", function() win_move("h") end)
 map("n", "<C-j>", function() win_move("j") end)
 map("n", "<C-k>", function() win_move("k") end)
 map("n", "<C-l>", function() win_move("l") end)
+
+-- Tab and Terminal
+map('t', '<esc><esc>', [[<C-\><C-n>]], opts("Escape terminal"))
+map('n', '<leader>tt', '<cmd>tabnew<cr>', opts("Open new tab"))
+map('n', '<leader>tn', function()
+  vim.cmd("tabnew")
+  vim.cmd.term()
+  vim.cmd.start()
+end, opts("Open terminal in new tab"))
+
+map('n', '<leader>to', function()
+  vim.cmd("tabnew")
+  vim.cmd("Pick files_with_hidden")
+end, opts("Open terminal in new tab"))
+map('n', '<leader>tr', ':RenameTerm<cr>', opts('Rename current terminal buffer'))
+
+
+-- Resize windows easily using Ctrl + Arrow keys
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true, desc = 'Resize left' })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { silent = true, desc = 'Resize right' })
+vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', { silent = true, desc = 'Resize up' })
+vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { silent = true, desc = 'Resize down' })
+
+
+-- Session
+local session_new = 'vim.ui.input({ prompt = "Session name: " }, MiniSessions.write)'
+
+map('n', '<leader>sd', '<Cmd>detach<CR>', opts('Session detach'))
+map('n', '<leader>sD', '<Cmd>lua MiniSessions.select("delete")<CR>', opts('Delete'))
+map('n', '<leader>sn', '<Cmd>lua ' .. session_new .. '<CR>', opts('New'))
+map('n', '<leader>sR', '<Cmd>lua MiniSessions.restart()<CR>', opts('Restart'))
+map('n', '<leader>sw', '<Cmd>lua MiniSessions.write()<CR>', opts('Write current'))
+map('n', '<leader>ss', '<Cmd>lua MiniStarter.open()<CR>', opts('Starter page'))
+map('n', '<leader>sr', '<Cmd>PickSession<CR>', opts('Read'))

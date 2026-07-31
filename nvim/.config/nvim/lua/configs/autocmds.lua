@@ -1,5 +1,21 @@
 local my_augroup = vim.api.nvim_create_augroup('CustomSettings', { clear = true })
 
+vim.api.nvim_create_autocmd('TermEnter', {
+  group = vim.api.nvim_create_augroup('custom-term-open', {clear=true}),
+  callback = function()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+  end,
+})
+
+vim.api.nvim_create_autocmd('TermLeave', {
+  group = vim.api.nvim_create_augroup('custom-term-leave', {clear=true}),
+  callback = function()
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+  end,
+})
+
 vim.api.nvim_create_autocmd('FileType', {
   group = my_augroup,
   pattern = '*', -- apply to all filetypes

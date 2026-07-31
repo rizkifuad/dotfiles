@@ -20,7 +20,7 @@ vim.cmd('colorscheme catppuccin-macchiato')
 vim.pack.add({
   { src = gh('mason-org/mason.nvim') },
   { src = gh('mason-org/mason-lspconfig.nvim') },
-  { src = gh('nvim-treesitter/nvim-treesitter'), version = 'main' },
+  { src = gh('nvim-treesitter/nvim-treesitter'),             version = 'main' },
   { src = gh('nvim-treesitter/nvim-treesitter-textobjects'), version = 'main' },
 })
 require('configs/lsp')
@@ -34,8 +34,6 @@ vim.pack.add({
   { src = gh('windwp/nvim-autopairs') }
 })
 require("configs/autopairs")
-
-
 
 -- Fugitive
 vim.pack.add({
@@ -60,6 +58,8 @@ vim.pack.add({
 
 require('mini.icons').setup()
 require('mini.completion').setup()
+require('mini.sessions').setup()
+require('mini.starter').setup()
 
 local misc = require('mini.misc')
 local later = function(f) misc.safely('later', f) end
@@ -67,6 +67,20 @@ later(function() require('mini.cmdline').setup() end)
 later(function() require('mini.extra').setup() end)
 require('mini.git').setup()
 later(function() require('mini.indentscope').setup() end)
+later(function()
+  local gen_loader = require('mini.snippets').gen_loader
+  require('mini.snippets').setup({
+    snippets = {
+      -- Load custom file with global snippets first (adjust for Windows)
+      gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+
+      -- Load snippets based on current language by reading files from
+      -- "snippets/" subdirectories from 'runtimepath' directories.
+      gen_loader.from_lang(),
+    },
+  })
+  MiniSnippets.start_lsp_server()
+end)
 later(function()
   require('mini.diff').setup({
     mappings = { apply = '' },
@@ -101,3 +115,10 @@ later(function()
     }
   }
 end)
+
+vim.pack.add({
+  { src = gh("MeanderingProgrammer/render-markdown.nvim") }
+})
+
+
+later(function() vim.pack.add({ gh('rafamadriz/friendly-snippets') }) end)

@@ -30,17 +30,23 @@ function _G.env_to_yaml()
   vim.cmd("set nopaste")
 end
 
+function _G.open_notes()
+  vim.cmd("tabnew")
+  vim.cmd("lcd " .. vim.fn.expand("~/notes"))
+  vim.cmd("Pick files_with_hidden")
+end
+
 -- Curated list of commands (Telescope references migrated over to mini.pick)
 local my_commands = {
   { desc = "Find files",                cmd = function() require('mini.pick').builtin.files() end },
-  { desc = "Find hidden files",         cmd = function() require('mini.pick').builtin.files({ tool = 'git' }) end },   -- Or fallback to your custom rg command if needed
+  { desc = "Find hidden files",         cmd = function() require('mini.pick').builtin.files({ tool = 'git' }) end }, -- Or fallback to your custom rg command if needed
   { desc = "Minify JSON",               cmd = "silent %!jq -r tostring" },
   { desc = "Format current buffer",     cmd = function() vim.lsp.buf.format() end },
   { desc = "Env To JSON",               cmd = function() env_to_json() end },
   { desc = "Env To YAML",               cmd = function() env_to_yaml() end },
   { desc = "JSON To Env",               cmd = function() json_to_env() end },
   { desc = "Restart LSP",               cmd = "lsp restart" },
-  { desc = "Scratchpad",                cmd = "tabnew ~/scratchpad" },
+  { desc = "Notes",                     cmd = open_notes },
 
   -- OPTION A: The modern, thorough way to check your LSP ecosystem health
   { desc = "LSP: Show Status & Health", cmd = "checkhealth vim.lsp" },
@@ -79,12 +85,13 @@ vim.keymap.set('n', '<space><space>', function()
       choose = function(item)
         if not item then return end
 
-        -- Safely runs both standard string Vim commands and native Lua functions
-        if type(item.cmd) == "function" then
-          item.cmd()
-        else
-          vim.cmd(item.cmd)
-        end
+        vim.schedule(function()
+          if type(item.cmd) == "function" then
+            item.cmd()
+          else
+            vim.cmd(item.cmd)
+          end
+        end)
       end,
     }
   })

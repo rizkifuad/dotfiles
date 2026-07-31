@@ -38,6 +38,8 @@ if status is-interactive
 
   set -x RIPGREP_CONFIG_PATH $HOME/.ripgreprc
 
+  set -x TODO_DIR $HOME/notes
+
   # Setting PATH
   set PATH $HOME/.local/bin $PATH
   # set PATH /opt/homebrew/bin $PATH
@@ -61,13 +63,15 @@ if status is-interactive
 
   # FZF command
   set -x FZF_DEFAULT_COMMAND "rg --files --hidden"
-  #fzf_configure_bindings --directory=\ct
+  fzf_configure_bindings --directory=\ct
 
   # Tmux quick attach
   abbr -a tma tmux attach -t 
 
   # Tmux quick start
   abbr -a tm systemd-run --user --scope tmux new-session
+
+  abbr -a vs nvim --listen /tmp/nvim.
  
 
   # exa for ls
@@ -99,7 +103,7 @@ if status is-interactive
 
   abbr -a p "pnpm"
 
-  abbr -a v "nvim"
+  abbr -a tx "tuxedo"
 
   alias bunx="bun x"
 
@@ -115,8 +119,11 @@ set -x N_PREFIX "$HOME/.n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_P
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init.fish 2>/dev/null || :
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/rizki/work/clipboardnation/M3Studio/google-cloud-sdk/path.fish.inc' ]; . '/home/rizki/work/clipboardnation/M3Studio/google-cloud-sdk/path.fish.inc'; end
+functions -c fish_prompt _original_fish_prompt 2>/dev/null
 
-# OpenClaw Completion
-test -f "/home/rizki/.openclaw/completions/openclaw.fish"; and source "/home/rizki/.openclaw/completions/openclaw.fish"
+function fish_prompt --description 'Write out the prompt'
+  if set -q ZMX_SESSION
+    echo -n "[$ZMX_SESSION] "
+  end
+  _original_fish_prompt
+end
