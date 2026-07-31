@@ -59,7 +59,7 @@ vim.pack.add({
 require('mini.icons').setup()
 require('mini.completion').setup()
 require('mini.sessions').setup()
-require('mini.starter').setup()
+-- require('mini.starter').setup()
 
 local misc = require('mini.misc')
 local later = function(f) misc.safely('later', f) end
