@@ -1,5 +1,4 @@
 local map = vim.keymap.set
-  vim.cmd.start()
 local opts = function(desc)
   return { noremap = true, silent = true, nowait = false, desc = desc }
 end
@@ -21,7 +20,6 @@ map('n', '<leader><leader>r', function()
 
   -- 2. Restart Neovim and immediately load that session file
   vim.cmd('restart source ' .. vim.fn.fnameescape(session))
-  vim.cmd("stopinsert")
 end, { desc = 'Reload config' })
 map('n', '<leader><leader>c', function()
   vim.cmd("tabnew")

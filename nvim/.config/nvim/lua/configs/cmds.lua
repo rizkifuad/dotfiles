@@ -33,7 +33,7 @@ local function pick_sessions()
     if vim.fn.isdirectory(sock) ~= 0 then
       break
     end
-    if ! name:find("%.log") then
+    if not name:find("%.log") then
       tmp_sockets[name] = sock
     end
   end
