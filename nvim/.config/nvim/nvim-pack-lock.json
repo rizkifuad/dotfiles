@@ -1,12 +1,20 @@
 {
   "plugins": {
-    "base16-nvim": {
-      "rev": "7090884cee9e89242df3663115004af352a9bbc9",
-      "src": "https://github.com/RRethy/base16-nvim"
+    "agentic.nvim": {
+      "rev": "267b86224f9931bde47225852a58b21f9d153a9f",
+      "src": "https://github.com/carlos-algms/agentic.nvim"
+    },
+    "conform.nvim": {
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
+      "src": "https://github.com/stevearc/conform.nvim"
     },
     "flash.nvim": {
       "rev": "b6346946d10d07998efee029fb0f7a593806d0cd",
       "src": "https://github.com/folke/flash.nvim"
+    },
+    "floaterm": {
+      "rev": "ad4cd3ded499af500fae03b43d7531103cc6ffb9",
+      "src": "https://github.com/rizkifuad/floaterm"
     },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
@@ -54,6 +62,10 @@
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",
       "src": "https://github.com/tpope/vim-fugitive"
+    },
+    "volt": {
+      "rev": "620de1321f275ec9d80028c68d1b88b409c0c8b1",
+      "src": "https://github.com/nvzone/volt"
     }
   }
 }

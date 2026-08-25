@@ -1,23 +1,24 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 45,
+  "height": 44,
   "spacing": 0,
   "modules-left": [
-    "niri/workspaces",
-    "niri/window",
+    "mango/workspaces",
+    "mango/window",
   ],
   "modules-right": [
     "tray",
-    "custom/pomobar",
     "network",
     "bluetooth",
     "pulseaudio",
     "cpu",
-    "temperature",
     "memory",
     "clock",
   ],
+  "river/tags": {
+    "num-tags": 5,
+  },
   "niri/workspaces": {
     "disable-scroll": false,
     "all-outputs": false,
@@ -51,6 +52,18 @@
       "(.*) Zen (.*)": "Zen Browser",
       "(.*) - Google Chrome(.*)": "Google Chrome"
     }
+  },
+  "mango/workspaces": {
+    "hide-empty": true
+  },
+  "mango/window": {
+    "format": "{title}",
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "🌎 $1",
+      "(.*) - zsh": "> [$1]"
+    },
+    "icon": true,
+    "icon-size": 20
   },
   "custom/power": {
     "format": "  ",
@@ -123,13 +136,13 @@
     "format": "   <span color=\"#FFFFFF\">{usage}%</span> ",
     "tooltip": true
   },
- "temperature": {
+  "temperature": {
     // "thermal-zone": 2,
     "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
     "critical-threshold": 80,
     "format-critical": "{temperatureC}°C ",
     "format": "{temperatureC}°C "
-},
+  },
   "clock": {
     "interval": 15,
     "timezone": "Asia/Jakarta",
@@ -178,10 +191,10 @@
     "on-click-middle": "/home/rizki/.local/bin/pomobar-cli reset",
     "return-type": "json",
   },
-"custom/ycal": {
+  "custom/ycal": {
     "exec": "/usr/share/waybar-ycal/bar.py",
     "on-click": "/usr/share/waybar-ycal/toggle.sh",
     "interval": 60,
     "return-type": "json"
-},
+  },
 }

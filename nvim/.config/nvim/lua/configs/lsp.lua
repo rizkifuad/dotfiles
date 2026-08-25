@@ -4,7 +4,7 @@
 -- Add each lsp server you want to enable here
 -- Add the config to the lsp folder
 -- Each LSP server will be added by Mason and enabled
-local lsp_servers = { "jsonls", "cssls", "gopls", "html", "rust_analyzer", "astro", "ts_ls", "vue_ls", "intelephense", "tailwindcss", "lua_ls"}
+local lsp_servers = { "jsonls", "cssls", "gopls", "html", "rust_analyzer", "astro", "ts_ls", "vue_ls", "intelephense", "tailwindcss", "lua_ls", "slint_lsp"}
 
 require('mason').setup()
 require('mason-lspconfig').setup({

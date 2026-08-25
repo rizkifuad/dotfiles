@@ -75,11 +75,15 @@ input {
 
 output "DP-1" {
   focus-at-startup 
-  scale 1.25
+  scale 1.5
+  transform "90"
+    layout {
+        default-column-width { proportion 1.0; }
+    }
 }
 
 output "HDMI-A-1" {
-  scale 1
+  scale 1.15
   position x=0 y=0
   mode "2560x1440@120.000"
 }

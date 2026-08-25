@@ -46,7 +46,6 @@ map('n', ']e', ':<c-u>execute "move +". v:count1<cr>', opts("Move line below"))
 map("n", "gl", "$", opts("Jump to first available letter"))
 map("n", "gh", "^", opts("Jump to last available letter"))
 map("n", "gb", function() require("mini.pick").builtin.buffers() end, opts("Buffer list"))
-map("n", "s", function() require("flash").jump() end, opts("Jump"))
 map("n", "<leader>cd", ":lcd %:p:h<cr>", opts("Jump"))
 
 -- Qflist Loclist
@@ -109,6 +108,10 @@ map('i', '<c-l>', function() return vim.fn['codeium#CycleCompletions'](1) end, {
 map('i', '<c-h>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
 map('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
 
+-- AI coding  --
+map('n', '<c-,>', function() require("agentic").toggle() end, opts("Toggle agentic coding"))
+
+
 
 -- WinMove GOAT
 local function win_move(key)
@@ -152,7 +155,19 @@ map('n', '<leader>to', function()
   vim.cmd("tabnew")
   vim.cmd("Pick files_with_hidden")
 end, opts("Open terminal in new tab"))
-map('n', '<leader>tr', ':RenameTerm<cr>', opts('Rename current terminal buffer'))
+map('n', '<leader>ts', function()
+  vim.cmd("below split")
+  vim.cmd("resize -10")
+  vim.cmd.term()
+  vim.cmd.start()
+end, opts('Terminal split'))
+map('n', '<leader>tv', function()
+  vim.cmd("botright vsplit")
+  vim.cmd.term()
+  vim.cmd.start()
+end, opts('Terminal split vertical'))
+map('n', '<C-t>', '<Cmd>FloatermToggle<cr>', opts('Terminal split vertical'))
+map({'n', 't'}, '<C-t>', '<Cmd>FloatermToggle<cr>', opts('Terminal split vertical'))
 
 
 -- Resize windows easily using Ctrl + Arrow keys
@@ -170,5 +185,6 @@ map('n', '<leader>sD', '<Cmd>lua MiniSessions.select("delete")<CR>', opts('Delet
 map('n', '<leader>sn', '<Cmd>lua ' .. session_new .. '<CR>', opts('New'))
 map('n', '<leader>sR', '<Cmd>lua MiniSessions.restart()<CR>', opts('Restart'))
 map('n', '<leader>sw', '<Cmd>lua MiniSessions.write()<CR>', opts('Write current'))
-map('n', '<leader>ss', '<Cmd>lua MiniStarter.open()<CR>', opts('Starter page'))
-map('n', '<leader>sr', '<Cmd>PickSession<CR>', opts('Read'))
+map('n', '<leader>sr', '<Cmd>PickSession<CR>', opts('Pick Session'))
+map('n', '<leader>sk', '<Cmd>KillOtherUIs<CR>', opts('Kill Other UI Clients'))
+

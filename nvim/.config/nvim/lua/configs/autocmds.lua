@@ -1,7 +1,7 @@
 local my_augroup = vim.api.nvim_create_augroup('CustomSettings', { clear = true })
 
 vim.api.nvim_create_autocmd('TermEnter', {
-  group = vim.api.nvim_create_augroup('custom-term-open', {clear=true}),
+  group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
   callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd('TermEnter', {
 })
 
 vim.api.nvim_create_autocmd('TermLeave', {
-  group = vim.api.nvim_create_augroup('custom-term-leave', {clear=true}),
+  group = vim.api.nvim_create_augroup('custom-term-leave', { clear = true }),
   callback = function()
     vim.opt.number = true
     vim.opt.relativenumber = true
@@ -64,9 +64,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('<leader>dp', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Diagnostic Previous')
     map('<leader>dc', vim.diagnostic.open_float, 'Diagnostic Open')
     map('<space>e', vim.diagnostic.open_float, 'Diagnostic Open')
-    map('<leader>da', MiniExtra.pickers.diagnostic, 'Diagnostic List')
-    map('<leader>lc',  vim.lsp.buf.code_action, 'Code Action')
-    map('<leader>lr',  vim.lsp.buf.rename, 'Rename')
+    map('<leader>da', function() MiniExtra.pickers.diagnostic() end, 'Diagnostic List')
+    map('<leader>lc', vim.lsp.buf.code_action, 'Code Action')
+    map('<leader>lr', vim.lsp.buf.rename, 'Rename')
+
+    if vim.bo.filetype == "blade" or vim.bo.filetype == "vue" then
+      map('<space>f', function()
+        require("conform").format({ bufnr = args.buf })
+      end, 'Format')
+    end
   end,
 })
 
@@ -113,3 +119,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(args)
+    vim.b.did_indent = 1
+    pcall(vim.treesitter.start, args.buf)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { "slint" },
+  callback = function(args)
+    vim.opt.shiftwidth = 4
+    vim.opt.tabstop = 4
+    vim.opt.softtabstop = 4
+  end,
+})

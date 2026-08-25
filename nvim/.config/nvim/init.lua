@@ -1,9 +1,6 @@
 require('vim._core.ui2').enable({})
 
-require('configs.autocmds')
-require('configs.cmds')
 require('configs.options')
-require('configs.keymaps')
 require('configs.tabline')
 
 -- Plugins for treesitter and lsp server management (Mason)
@@ -24,11 +21,7 @@ vim.pack.add({
   { src = gh('nvim-treesitter/nvim-treesitter-textobjects'), version = 'main' },
 })
 require('configs/lsp')
-
--- Treesitter
-require('nvim-treesitter.config').setup({
-  install_dir = vim.fn.stdpath('data') .. '/site',
-})
+require('configs/treesitter')
 
 vim.pack.add({
   { src = gh('windwp/nvim-autopairs') }
@@ -60,28 +53,15 @@ require('mini.icons').setup()
 require('mini.completion').setup()
 require('mini.sessions').setup()
 require('mini.notify').setup()
+require('mini.git').setup()
+require('mini.surround').setup()
 
 local misc = require('mini.misc')
 local later = function(f) misc.safely('later', f) end
-later(function() require('mini.cmdline').setup() end)
-later(function() require('mini.extra').setup() end)
-require('mini.git').setup()
-later(function() require('mini.indentscope').setup() end)
 later(function()
-  local gen_loader = require('mini.snippets').gen_loader
-  require('mini.snippets').setup({
-    snippets = {
-      -- Load custom file with global snippets first (adjust for Windows)
-      gen_loader.from_file('~/.config/nvim/snippets/global.json'),
-
-      -- Load snippets based on current language by reading files from
-      -- "snippets/" subdirectories from 'runtimepath' directories.
-      gen_loader.from_lang(),
-    },
-  })
-  MiniSnippets.start_lsp_server()
-end)
-later(function()
+  require('mini.cmdline').setup()
+  require('mini.extra').setup()
+  require('mini.indentscope').setup()
   require('mini.diff').setup({
     mappings = { apply = '' },
     view = {
@@ -91,16 +71,28 @@ later(function()
       }
     }
   })
+  require('configs.mini-pick')
+  require('configs.mini-clue')
+  require('configs.snippets')
+  vim.opt.clipboard = "unnamedplus"
+  MiniIcons.tweak_lsp_kind()
 end)
-later(function() require('configs.mini-pick') end)
-later(function() require('configs.mini-clue') end)
 
-later(function() vim.opt.clipboard = "unnamedplus" end)
-later(MiniIcons.tweak_lsp_kind)
+
+vim.pack.add({ gh('stevearc/conform.nvim') })
+require('conform').setup({
+  formatters_by_ft = {
+    blade = { "blade-formatter" },
+    vue = { "prettierd" },
+  }
+})
 
 require('configs.mini-files')
 require('configs.mini-statusline')
 
+require('configs.autocmds')
+require('configs.cmds')
+require('configs.keymaps')
 
 vim.pack.add({
   { src = gh('NvChad/nvim-colorizer.lua') },
@@ -114,11 +106,20 @@ later(function()
       mode = 'foreground',
     }
   }
+  vim.pack.add({
+    { src = gh("MeanderingProgrammer/render-markdown.nvim") }
+  })
+  vim.pack.add({ gh('rafamadriz/friendly-snippets') })
+
+  vim.pack.add({ gh('carlos-algms/agentic.nvim') })
+  require("agentic").setup({
+    provider = "gemini-acp",
+  })
+  vim.pack.add({ gh('nvzone/volt') })
+
+  vim.pack.add({ gh('rizkifuad/floaterm') })
+  require('floaterm').setup({
+    size = { h = 90, w = 90 },
+    zmx = { enabled = true }
+  })
 end)
-
-vim.pack.add({
-  { src = gh("MeanderingProgrammer/render-markdown.nvim") }
-})
-
-
-later(function() vim.pack.add({ gh('rafamadriz/friendly-snippets') }) end)

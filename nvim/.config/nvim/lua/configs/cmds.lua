@@ -10,6 +10,11 @@ vim.api.nvim_create_user_command('VimPackDelInactive', function()
   vim.pack.del(unused)
 end, { desc = 'Remove inactive packages' })
 
+-- Remove inactive packages
+vim.api.nvim_create_user_command('VimPackUpdate', function()
+  vim.pack.update()
+end, { desc = 'Update packages' })
+
 -- lsp related
 
 vim.api.nvim_create_user_command('LSPFormat', function()
@@ -95,9 +100,15 @@ local function pick_sessions()
             vim.fn.jobstart(cmd, {
               detach = true
             })
+            local notif = vim.notify("Preparing " .. chosen_item.text .. " session", vim.log.levels.INFO, {
+              title = "Load Session"
+            })
             vim.defer_fn(function()
+              vim.notify('Session "' .. chosen_item.text .. '" loaded', vim.log.levels.INFO, {
+                title = "Load Session",
+                replace = notif
+              })
               vim.cmd("connect " .. chosen_item.socket)
-              vim.cmd("stopinsert")
             end, 5000)
           end
         end
@@ -108,3 +119,20 @@ end
 
 -- Create a user command to easily trigger it
 vim.api.nvim_create_user_command('PickSession', pick_sessions, {})
+
+local currentui = nil
+vim.api.nvim_create_autocmd("UIEnter", {
+  callback = function()
+    currentui = vim.v.event.chan
+  end,
+})
+
+local function kill_other_uis()
+  for _, ui in ipairs(vim.api.nvim_list_uis()) do
+    if ui.chan ~= currentui then
+      vim.fn.chanclose(ui.chan)
+    end
+  end
+end
+
+vim.api.nvim_create_user_command('KillOtherUIs', kill_other_uis, {})

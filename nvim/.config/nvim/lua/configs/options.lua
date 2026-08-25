@@ -1,4 +1,5 @@
 local options = {
+  autoindent = true,
   hidden = true,
   backup = false,                                    -- creates a backup file
   cmdheight = 1,                                     -- more space in the neovim command line for displaying messages
@@ -40,7 +41,15 @@ local options = {
   foldlevel = 99,
   shada = "'100,<50,s10,:1000,/100,@100,h",
   mousescroll = 'ver:15,hor:6',
-  sessionoptions = "buffers,curdir,tabpages,winsize,folds,globals,terminal"
+  sessionoptions = "buffers,curdir,tabpages,winsize,folds,globals,terminal",
+  list = false,
+  listchars = {
+    tab = '│ ',
+    trail = '•',
+    nbsp = '␣',
+    extends = '⟩',
+    precedes = '❮',
+  }
 }
 
 vim.opt.shortmess:append("c")
@@ -112,3 +121,15 @@ function! CopyMatches(reg)
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 ]])
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}

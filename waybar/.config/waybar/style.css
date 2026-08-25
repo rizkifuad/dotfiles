@@ -1,6 +1,6 @@
 * {
   font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Free Solid";
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 0;
   min-height: 0;
   border: none;
@@ -22,7 +22,7 @@
 }
 
 #waybar {
-  background-color: #181825;
+  background-color: rgba(24, 24, 37, 0.75);
   transition-property: background-color;
   transition-duration: 0.5s;
 }
@@ -98,11 +98,8 @@
 
 #workspaces button {
   all: initial;
-  /* Remove GTK theme values (waybar #1351) */
   min-width: 0;
-  /* Fix weird spacing in materia (waybar #450) */
   box-shadow: inset 0 -3px transparent;
-  /* Use box-shadow instead of border so the text isn't offset */
   padding: 4px 18px 6px 14px;
   margin: 6px 3px;
   border-radius: 4px;
@@ -123,18 +120,5 @@
 }
 
 #workspaces button label {
-  font-size: 18px;
-}
-
-tooltip {
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #131822;
-  color: #C0C0C0;
-}
-
-tooltip label {
-  padding: 5px;
-  background-color: #131822;
-  color: #C0C0C0;
+  font-size: 12px;
 }

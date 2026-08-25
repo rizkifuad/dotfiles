@@ -2,6 +2,10 @@
 // "/-" comments out the following node.
 // Check the wiki for a full description of the configuration:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
+workspace "work"
+workspace "chat"
+workspace "game"
+workspace "stash"
 
 // Input device configuration.
 // Find the full list of options on the wiki:
@@ -74,10 +78,10 @@ input {
 output "DP-1" {
   focus-at-startup 
   scale 1.25
+  mode "3840x2160@60.000"
 }
 
-output "HDMI-A-1" {
-  scale 1
+output "DP-2" {
   position x=0 y=0
   mode "2560x1440@120.000"
 }
@@ -132,7 +136,7 @@ environment {
 // https://niri-wm.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 16
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -177,10 +181,10 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         // Uncomment this line to disable the focus ring.
-        // off
+        off
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 1
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -216,9 +220,9 @@ layout {
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        off
+        // off
 
-        width 4
+        width 1
         active-color "#ffc87f"
         inactive-color "#505050"
 
@@ -236,7 +240,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        // on
+        on
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -261,7 +265,7 @@ layout {
         softness 30
 
         // Spread expands the shadow.
-        spread 5
+        spread 10
 
         // Offset moves the shadow relative to the window.
         offset x=0 y=5
@@ -293,6 +297,8 @@ spawn-at-startup "noctalia"
 spawn-at-startup "foot" "--server"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "google-chrome-stable" "--profile-directory=Default"
+spawn-at-startup "sh" "-c" "sleep 2 && footclient"
 // spawn-at-startup "$HOME/.config/niri/autostart.sh"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
@@ -340,14 +346,15 @@ window-rule {
     match title="^wiremix$"
     match app-id="scrcpy"
     match title="yazi"
+    match title="tuxedo"
     match app-id="localsend"
 
     default-window-height {
-        fixed 600;
+        fixed 800;
     }
 
     default-column-width {
-      proportion 0.25;
+      proportion 0.4;
     }
 
     draw-border-with-background true
@@ -358,6 +365,11 @@ window-rule {
     match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
     default-floating-position x=10 y=10 relative-to="bottom-right"
     open-focused false
+}
+
+window-rule {
+  match app-id="one.alynx.showmethekey"
+  open-floating true
 }
 
 
@@ -450,7 +462,10 @@ binds {
     // Most actions that you can bind here can also be invoked programmatically with
     // `niri msg action do-something`.
 
-    Mod+E hotkey-overlay-title="yazi" { spawn-sh "footclient -T yazi yazi"; }
+
+    Mod+E hotkey-overlay-title="Open explorer" { spawn "niri-scratchpad" "target" "--spawn" "footclient -T yazi yazi" "title" "yazi" ; }
+    Mod+slash hotkey-overlay-title="Todo list" { spawn "niri-scratchpad" "target" "--spawn" "env TODO_DIR=/home/rizki/notes footclient -E -T tuxedo tuxedo" "title" "tuxedo" ; }
+    Mod+Ctrl+Alt+H hotkey-overlay-title="Show Hints" { spawn "hints"; }
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
@@ -747,6 +762,11 @@ blur {
   offset 3.0      // sample distance per pass (default: 3.0)
   noise 0.03      // grain overlay (default: 0.02)
   saturation 1.0  // color saturation boost (default: 1.5)
+}
+gestures {
+    hot-corners {
+        off
+    }
 }
 
 

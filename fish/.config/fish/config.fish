@@ -1,6 +1,10 @@
 if status is-interactive
     # Start X at login
   if status is-login
+    if test -z "$WAYLAND_DISPLAY"; and test (tty) = /dev/tty1; and test -z "$MANGO_STARTED"
+      set -gx MANGO_STARTED 1
+      mango
+    end
       if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
         # startx -- -keeptty
         # $HOME/.local/bin/steamos-session-select
@@ -62,15 +66,11 @@ if status is-interactive
 
 
   # FZF command
-  set -x FZF_DEFAULT_COMMAND "rg --files --hidden"
-  fzf_configure_bindings --directory=\ct
+  # set -x FZF_DEFAULT_COMMAND "rg --files --hidden"
+  # fzf_configure_bindings --directory=\ct
 
-  # Tmux quick attach
-  abbr -a tma tmux attach -t 
-
-  # Tmux quick start
-  abbr -a tm systemd-run --user --scope tmux new-session
-
+  # zmx
+  abbr -a t zmx a
   abbr -a vs nvim --listen /tmp/nvim.
  
 
@@ -82,13 +82,11 @@ if status is-interactive
   abbr -a nf "echo \"          異  \"  "
 
   # Telescope fzf projects
-  abbr -a p telescope_projects
+  # abbr -a p telescope_projects
 
   # nvim for ftp
   abbr -a snvim "nvim --listen /tmp/nvimsocket"
 
-  # tmux new
-  abbr -a t "tmux_new"
 
   abbr -a sail "./vendor/bin/sail"
 
@@ -127,3 +125,10 @@ function fish_prompt --description 'Write out the prompt'
   end
   _original_fish_prompt
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/rizki/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

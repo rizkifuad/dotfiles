@@ -31,9 +31,9 @@ local function get_icon_with_color(filename, ext, is_active, is_modified)
   elseif is_modified then
     base_hl_name = "TabLineMod"
   end
-  
+
   local current_bg = get_hl_bg(base_hl_name)
-  
+
   -- 1. Integrasi dengan mini.icons
   local has_mini, mini_icons = pcall(require, "mini.icons")
   if has_mini then
@@ -42,7 +42,7 @@ local function get_icon_with_color(filename, ext, is_active, is_modified)
       local hl_data = vim.api.nvim_get_hl(0, { name = hl_group, link = false })
       local fg_color = hl_data.fg and string.format("#%06x", hl_data.fg) or "#ffffff"
       local custom_hl = "TablineIcon_" .. hl_group .. (is_active and "Sel" or "Inact") .. (is_modified and "Mod" or "")
-      
+
       vim.api.nvim_set_hl(0, custom_hl, { fg = fg_color, bg = current_bg })
       return "%#" .. custom_hl .. "#" .. icon .. " "
     end
@@ -56,7 +56,7 @@ local function get_icon_with_color(filename, ext, is_active, is_modified)
       local hl_data = vim.api.nvim_get_hl(0, { name = hl_group, link = false })
       local fg_color = hl_data.fg and string.format("#%06x", hl_data.fg) or "#ffffff"
       local custom_hl = "TablineIcon_" .. hl_group .. (is_active and "Sel" or "Inact") .. (is_modified and "Mod" or "")
-      
+
       vim.api.nvim_set_hl(0, custom_hl, { fg = fg_color, bg = current_bg })
       return "%#" .. custom_hl .. "#" .. icon .. " "
     end
@@ -75,7 +75,7 @@ function MyCustomTabline()
     local buflist = vim.fn.tabpagebuflist(i)
     local bufnr = buflist[winnr]
     local bufname = vim.fn.bufname(bufnr)
-    
+
     local filename = bufname ~= "" and vim.fn.fnamemodify(bufname, ":t") or "[No Name]"
     local ext = vim.fn.fnamemodify(filename, ":e")
     local is_active = (i == current_tab)
@@ -121,20 +121,20 @@ function MyCustomTabline()
 end
 
 -- Hubungkan fungsi lua ke native tabline
-vim.o.tabline = '%!v:lua.MyCustomTabline()'
+vim.o.tabline     = '%!v:lua.MyCustomTabline()'
 
 -- KUSTOMISASI WARNA (Ubah kode hex di sini jika ingin mengganti warna latar/teks)
 local bg_inactive = '#222222'
 local bg_active   = '#444444'
 
 -- 1. Tab Normal (Sudah Disimpan)
-vim.api.nvim_set_hl(0, 'TabLine',    { fg = '#888888', bg = bg_inactive })
+vim.api.nvim_set_hl(0, 'TabLine', { fg = '#888888', bg = bg_inactive })
 vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#ffffff', bg = bg_active, bold = true })
 
 -- 2. Tab Modified (Belum Disimpan)
 -- Di sini Anda bisa membedakan warna latar belakang (bg) jika ingin berbeda saat dimodifikasi
-vim.api.nvim_set_hl(0, 'TabLineMod',    { fg = '#e5c07b', bg = bg_inactive, italic = true }) 
-vim.api.nvim_set_hl(0, 'TabLineSelMod', { fg = '#e5c07b', bg = bg_active, bold = true })   
+vim.api.nvim_set_hl(0, 'TabLineMod', { fg = '#e5c07b', bg = bg_inactive, italic = true })
+vim.api.nvim_set_hl(0, 'TabLineSelMod', { fg = '#e5c07b', bg = bg_active, bold = true })
 
 -- 3. Sisa area kosong di tabline
 vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#111111' })
