@@ -68,11 +68,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('<leader>lc', vim.lsp.buf.code_action, 'Code Action')
     map('<leader>lr', vim.lsp.buf.rename, 'Rename')
 
-    if vim.bo.filetype == "blade" or vim.bo.filetype == "vue" then
-      map('<space>f', function()
-        require("conform").format({ bufnr = args.buf })
-      end, 'Format')
-    end
   end,
 })
 
@@ -134,5 +129,20 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt.shiftwidth = 4
     vim.opt.tabstop = 4
     vim.opt.softtabstop = 4
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "blade", "vue" },
+  callback = function(args)
+    -- Fungsi map lokal untuk buffer ini saja
+    local map = function(keys, func, desc)
+      vim.keymap.set('n', keys, func, { buffer = args.buf, desc = desc })
+    end
+
+    -- Pemetaan tombol format khusus Blade dan Vue
+    map('<space>f', function()
+      require("conform").format({ bufnr = args.buf })
+    end, 'Format')
   end,
 })

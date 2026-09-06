@@ -23,6 +23,6 @@ noctalia &
 
 #idle
 swayidle -w \
-  timeout 660 'wlopm --off *' \
+  timeout 660 'mmsg dispatch sleep_monitor,DP-2 && mmsg dispatch sleep_monitor,HDMI-A-2' \
   timeout 900 'systemctl suspend' \
-  resume 'wlopm --on *' &
+  resume 'mmsg dispatch wake_monitor,DP-2 && mmsg dispatch wake_monitor,HDMI-A-2' &

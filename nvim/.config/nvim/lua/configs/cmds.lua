@@ -109,7 +109,7 @@ local function pick_sessions()
                 replace = notif
               })
               vim.cmd("connect " .. chosen_item.socket)
-            end, 5000)
+            end, 3000)
           end
         end
       end,
@@ -119,20 +119,3 @@ end
 
 -- Create a user command to easily trigger it
 vim.api.nvim_create_user_command('PickSession', pick_sessions, {})
-
-local currentui = nil
-vim.api.nvim_create_autocmd("UIEnter", {
-  callback = function()
-    currentui = vim.v.event.chan
-  end,
-})
-
-local function kill_other_uis()
-  for _, ui in ipairs(vim.api.nvim_list_uis()) do
-    if ui.chan ~= currentui then
-      vim.fn.chanclose(ui.chan)
-    end
-  end
-end
-
-vim.api.nvim_create_user_command('KillOtherUIs', kill_other_uis, {})

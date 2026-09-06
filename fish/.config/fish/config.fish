@@ -1,9 +1,9 @@
 if status is-interactive
     # Start X at login
   if status is-login
-    if test -z "$WAYLAND_DISPLAY"; and test (tty) = /dev/tty1; and test -z "$MANGO_STARTED"
-      set -gx MANGO_STARTED 1
-      mango
+    if test -z "$WAYLAND_DISPLAY"; and test (tty) = /dev/tty1; and test -z "$SESSION_STARTED"
+      set -gx SESSION_STARTED 1
+      start-hyprland
     end
       if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
         # startx -- -keeptty

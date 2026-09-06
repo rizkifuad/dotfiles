@@ -3,6 +3,7 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 return { cmd = { 'lua-language-server' }, filetypes = { 'lua' },
+  root_markers = { { '.emmyrc.json', '.luarc.json' }, '.git' },
   settings = {
     Lua = {
       runtime = {

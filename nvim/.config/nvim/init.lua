@@ -12,7 +12,7 @@ vim.pack.add({
 })
 
 require("catppuccin").setup({ styles = { diagnostics = { "undercurl" } } })
-vim.cmd('colorscheme catppuccin-macchiato')
+vim.cmd('colorscheme catppuccin-mocha')
 
 vim.pack.add({
   { src = gh('mason-org/mason.nvim') },
@@ -109,17 +109,19 @@ later(function()
   vim.pack.add({
     { src = gh("MeanderingProgrammer/render-markdown.nvim") }
   })
+  require("render-markdown").setup({
+    latex = {enabled=false},
+    yaml = {enabled=false}
+  })
   vim.pack.add({ gh('rafamadriz/friendly-snippets') })
 
-  vim.pack.add({ gh('carlos-algms/agentic.nvim') })
-  require("agentic").setup({
-    provider = "gemini-acp",
-  })
   vim.pack.add({ gh('nvzone/volt') })
-
   vim.pack.add({ gh('rizkifuad/floaterm') })
   require('floaterm').setup({
     size = { h = 90, w = 90 },
     zmx = { enabled = true }
   })
+  vim.pack.add({ gh('phanen/vbi.nvim') })
+  -- vim.pack.add({ gh('jake-stewart/multicursor.nvim') })
+  -- require("configs.multicursor")
 end)

@@ -103,13 +103,13 @@ map("n", "<leader>xt", "<cmd>lua require'dap'.terminate()<cr>", opts("DapTermina
 
 
 -- Codeium --
-map('i', '<C-f>', function() return vim.fn['codeium#Accept']() end, { expr = true })
-map('i', '<c-l>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-map('i', '<c-h>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-map('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+-- map('i', '<C-f>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+-- map('i', '<c-l>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+-- map('i', '<c-h>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+-- map('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
 
 -- AI coding  --
-map('n', '<c-,>', function() require("agentic").toggle() end, opts("Toggle agentic coding"))
+map('n', '<c-,>', ":t.<cr>" , opts("Duplicate line"))
 
 
 
@@ -169,6 +169,11 @@ end, opts('Terminal split vertical'))
 map('n', '<C-t>', '<Cmd>FloatermToggle<cr>', opts('Terminal split vertical'))
 map({'n', 't'}, '<C-t>', '<Cmd>FloatermToggle<cr>', opts('Terminal split vertical'))
 
+-- Multicursor
+map('n', '<space>a', "*:g//normal! nQq=<cr>", opts('Multicursor matches'))
+map('n', '<space>l', ":e!<cr>", opts('Multicursor clear'))
+map('n', '<down>', "Qj", opts('Multicursor clear'))
+
 
 -- Resize windows easily using Ctrl + Arrow keys
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true, desc = 'Resize left' })
@@ -186,5 +191,5 @@ map('n', '<leader>sn', '<Cmd>lua ' .. session_new .. '<CR>', opts('New'))
 map('n', '<leader>sR', '<Cmd>lua MiniSessions.restart()<CR>', opts('Restart'))
 map('n', '<leader>sw', '<Cmd>lua MiniSessions.write()<CR>', opts('Write current'))
 map('n', '<leader>sr', '<Cmd>PickSession<CR>', opts('Pick Session'))
-map('n', '<leader>sk', '<Cmd>KillOtherUIs<CR>', opts('Kill Other UI Clients'))
+map('n', '<leader>sk', '<Cmd>%detach<CR>', opts('Kill Other UI Clients'))
 

@@ -12,7 +12,7 @@ statusline.setup({
       local is_busy       = vim.bo.busy > 0 and ' 󰜺 ' or ''
 
       return statusline.combine_groups({
-        { hl = mode_hl,                 strings = { mode } },
+        { hl = mode_hl,                 strings = { " " } },
         { hl = 'MiniStatuslineDevinfo', strings = { git } },
         '%<', -- Truncate here
         { hl = 'MiniStatuslineFilename', strings = { filename, is_busy } },
